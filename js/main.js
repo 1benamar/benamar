@@ -377,6 +377,177 @@
     Promise.race([fonts, new Promise((r) => setTimeout(r, 900))]).then(go);
   }
 
+  /* 1. Mapa: el país y su panel se iluminan a la vez */
+  function initMapa() {
+    const mapa = $('.mapa');
+    if (!mapa) return;
+    const pair = (k) => [$('.mapa__pais--' + k, mapa), $('.world--' + k)];
+    ['es', 'ma', 'ro'].forEach((k) => {
+      const [pais, panel] = pair(k);
+      if (!pais || !panel) return;
+      const on = () => { pais.classList.add('is-hot'); panel.classList.add('is-hot'); };
+      const off = () => { pais.classList.remove('is-hot'); panel.classList.remove('is-hot'); };
+      [pais, panel].forEach((el) => { el.addEventListener('pointerenter', on); el.addEventListener('pointerleave', off); });
+    });
+  }
+
+  /* 4. Método: la línea se llena al bajar y marca la fase en la que se está */
+  function initSteps() {
+    const ol = $('.steps');
+    const track = $('.steps__track');
+    if (!ol) return;
+    const items = $$('li', ol);
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const r = ol.getBoundingClientRect();
+      const p = Math.max(0, Math.min(1, (window.innerHeight * 0.72 - r.top) / Math.max(1, r.height + window.innerHeight * 0.1)));
+      if (track) track.style.setProperty('--p', p.toFixed(3));
+      const n = r.top < window.innerHeight * 0.72 ? Math.min(items.length, Math.floor(p * (items.length - 1) + 1.0001)) : 0;
+      items.forEach((li, i) => li.classList.toggle('on', i < n));
+    };
+    const ask = () => { if (!raf) raf = requestAnimationFrame(update); };
+    window.addEventListener('scroll', ask, { passive: true });
+    window.addEventListener('resize', ask);
+    update();
+  }
+
+  /* 5. Formulario por pasos: primero sus datos, después su proyecto */
+  function initWizard() {
+    const form = $('[data-form]');
+    const groups = form ? $$('.form__group', form) : [];
+    if (groups.length !== 2) return;
+    const legend = (g) => ($('legend', g) || {}).textContent || '';
+    const bar = document.createElement('div');
+    bar.className = 'form__steps';
+    bar.innerHTML = '<ol><li class="is-on"><span>1</span><b data-step-name="0"></b></li><li><span>2</span><b data-step-name="1"></b></li></ol><div class="form__bar"><i></i></div>';
+    form.prepend(bar);
+    const names = () => $$('[data-step-name]', bar).forEach((b) => { b.textContent = legend(groups[+b.dataset.stepName]); });
+    names();
+    document.addEventListener('langchange', () => setTimeout(names, 0));
+    const next = document.createElement('div');
+    next.className = 'form__next';
+    next.innerHTML = '<button type="button" class="btn" data-i18n="f_next">Siguiente</button>';
+    groups[0].after(next);
+    const back = document.createElement('button');
+    back.type = 'button';
+    back.className = 'btn btn--ghost form__back';
+    back.setAttribute('data-i18n', 'f_back');
+    back.textContent = 'Atrás';
+    const end = $('.form__end', form);
+    end.prepend(back);
+    if (window.I18N && I18N.get() !== (I18N.base || 'es')) I18N.set(I18N.get());
+    const go = (step) => {
+      form.dataset.step = String(step);
+      $$('li', bar).forEach((li, i) => li.classList.toggle('is-on', i < step));
+      bar.style.setProperty('--s', step === 1 ? '.5' : '1');
+      const g = groups[step - 1];
+      g.classList.remove('is-entering'); void g.offsetWidth; g.classList.add('is-entering');
+    };
+    form.classList.add('is-wizard');
+    go(1);
+    const fieldOk = (name) => {
+      const el = form.elements[name];
+      const ok = name === 'email' ? EMAIL_RE.test(el.value.trim()) : el.value.trim() !== '';
+      const err = $('#e-' + name, form);
+      el.setAttribute('aria-invalid', String(!ok));
+      if (err) { err.textContent = ok ? '' : T(MSG[name]); err.hidden = ok; }
+      return ok;
+    };
+    $('button', next).addEventListener('click', () => {
+      const bad = ['name', 'email'].filter((n) => !fieldOk(n));
+      if (bad.length) { form.elements[bad[0]].focus(); return; }
+      go(2);
+      setTimeout(() => (form.elements.country.value ? form.elements.service : form.elements.country).focus({ preventScroll: true }), 50);
+      form.scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    });
+    back.addEventListener('click', () => { go(1); form.elements.name.focus({ preventScroll: true }); });
+    // Si al enviar falta algo del primer paso, se vuelve a él
+    form.addEventListener('submit', () => {
+      if (form.dataset.step === '2' && (!form.elements.name.value.trim() || !EMAIL_RE.test(form.elements.email.value.trim()))) go(1);
+    }, true);
+    new MutationObserver(() => { if ($('.form__done', form)) form.classList.add('is-done'); }).observe(form, { childList: true });
+  }
+
+  /* 6. WhatsApp a mano: aparece tras la portada y se esconde al llegar al contacto */
+  function initWa() {
+    const wa = $('[data-wa-float]');
+    if (!wa) return;
+    const contacto = $('#contacto');
+    let visibleContact = false;
+    if (contacto && 'IntersectionObserver' in window) {
+      new IntersectionObserver((en) => { visibleContact = en[0].isIntersecting; tick(); }, { threshold: 0.05 }).observe(contacto);
+    }
+    const hero = $('.hero');
+    const limit = () => (hero ? hero.offsetHeight * 0.75 : 320);
+    const tick = () => wa.classList.toggle('is-on', window.scrollY > limit() && !visibleContact);
+    window.addEventListener('scroll', tick, { passive: true });
+    tick();
+  }
+
+  /* 7. Galería a pantalla completa: flechas, teclado y deslizar */
+  function initLightbox() {
+    const items = $$('.gal__item');
+    if (!items.length) return;
+    const L = { close: { es: 'Cerrar', en: 'Close', fr: 'Fermer', ro: 'Închide' }, prev: { es: 'Anterior', en: 'Previous', fr: 'Précédente', ro: 'Anterioara' }, next: { es: 'Siguiente', en: 'Next', fr: 'Suivante', ro: 'Următoarea' } };
+    const chev = (d) => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const dlg = document.createElement('dialog');
+    dlg.className = 'lb';
+    dlg.innerHTML = '<figure class="lb__fig"><img alt=""><figcaption class="lb__cap"></figcaption></figure>'
+      + '<button type="button" class="lb__btn lb__close">' + chev('M6 6l12 12M18 6 6 18') + '</button>'
+      + '<button type="button" class="lb__btn lb__prev">' + chev('M15 5l-7 7 7 7') + '</button>'
+      + '<button type="button" class="lb__btn lb__next">' + chev('M9 5l7 7-7 7') + '</button>'
+      + '<p class="lb__n" aria-hidden="true"></p>';
+    document.body.append(dlg);
+    const img = $('img', dlg), cap = $('.lb__cap', dlg), num = $('.lb__n', dlg);
+    let cur = 0;
+    const labels = () => { $('.lb__close', dlg).setAttribute('aria-label', T(L.close)); $('.lb__prev', dlg).setAttribute('aria-label', T(L.prev)); $('.lb__next', dlg).setAttribute('aria-label', T(L.next)); };
+    const show = (i) => {
+      cur = (i + items.length) % items.length;
+      const src = $('img', items[cur]);
+      img.classList.remove('is-in'); void img.offsetWidth;
+      img.src = src.currentSrc.replace(/-800\.webp$/, '-1400.webp') || src.src;
+      img.alt = src.alt;
+      cap.textContent = ($('.gal__cap', items[cur]) || {}).textContent || '';
+      num.textContent = (cur + 1) + ' / ' + items.length;
+      img.classList.add('is-in');
+    };
+    const open = (i) => { labels(); show(i); dlg.showModal(); root.classList.add('lb-open'); };
+    const close = () => { dlg.close(); };
+    dlg.addEventListener('close', () => { root.classList.remove('lb-open'); items[cur].focus({ preventScroll: true }); });
+    items.forEach((it, i) => {
+      it.tabIndex = 0;
+      it.setAttribute('role', 'button');
+      const label = () => it.setAttribute('aria-label', ($('.gal__cap', it) || {}).textContent || '');
+      label();
+      document.addEventListener('langchange', () => setTimeout(label, 0));
+      it.addEventListener('click', () => open(i));
+      it.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
+    });
+    $('.lb__close', dlg).addEventListener('click', close);
+    $('.lb__prev', dlg).addEventListener('click', () => show(cur - 1));
+    $('.lb__next', dlg).addEventListener('click', () => show(cur + 1));
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) close(); });
+    dlg.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
+    let x0 = null;
+    dlg.addEventListener('pointerdown', (e) => { x0 = e.clientX; });
+    dlg.addEventListener('pointerup', (e) => { if (x0 === null) return; const dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); });
+  }
+
+  /* 8. Titular: cada palabra sale de un ligero desenfoque */
+  function splitHero() {
+    let k = 0;
+    $$('.hero__line').forEach((line) => {
+      const words = line.textContent.trim().split(/\s+/);
+      line.innerHTML = words.map((w) => '<span class="hw" style="--k:' + (k++) + '">' + w + '</span>').join(' ');
+    });
+  }
+  function initHeroWords() {
+    if (!$('.hero__line')) return;
+    splitHero();
+    document.addEventListener('langchange', () => setTimeout(splitHero, 0));
+  }
+
   function boot() {
     safe(initHeader, 'header');
     safe(initMenu, 'menu');
@@ -389,7 +560,13 @@
     safe(initFit, 'fit');
     safe(initWorlds, 'worlds');
     safe(initForm, 'form');
+    safe(initHeroWords, 'heroWords');
     safe(initHero, 'hero');
+    safe(initMapa, 'mapa');
+    safe(initSteps, 'steps');
+    safe(initWizard, 'wizard');
+    safe(initWa, 'wa');
+    safe(initLightbox, 'lightbox');
     const y = $('[data-year]');
     if (y) y.textContent = String(new Date().getFullYear());
   }
