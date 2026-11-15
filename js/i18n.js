@@ -33,9 +33,9 @@
     });
     document.documentElement.lang = lang;
     if (origTitle == null) origTitle = document.title;
-    document.title = pick(lang, '_title', origTitle);
+    document.title = pick(lang, document.documentElement.dataset.titleKey || '_title', origTitle);
     const desc = document.querySelector('meta[name="description"]');
-    if (desc) { if (!desc.dataset.orig) desc.dataset.orig = desc.content; desc.content = pick(lang, '_desc', desc.dataset.orig); }
+    if (desc) { if (!desc.dataset.orig) desc.dataset.orig = desc.content; desc.content = pick(lang, document.documentElement.dataset.descKey || '_desc', desc.dataset.orig); }
     document.querySelectorAll('[data-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
     store(KEY, lang);
     document.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));

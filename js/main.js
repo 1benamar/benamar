@@ -36,6 +36,124 @@
     window.matchMedia('(min-width: 1180px)').addEventListener('change', (e) => { if (e.matches) set(false); });
   }
 
+  /* Desplegable de idiomas con banderas */
+  function initLangs() {
+    const dd = $('[data-lang-dd]');
+    if (!dd) return;
+    const btn = $('[data-lang-dd-btn]', dd);
+    const list = $('[data-lang-dd-list]', dd);
+    const set = (open) => {
+      dd.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+    };
+    const sync = () => {
+      const l = lang().slice(0, 2);
+      $('[data-lang-dd-flag]', dd).setAttribute('href', '#flag-' + l);
+      $('[data-lang-dd-code]', dd).textContent = l.toUpperCase();
+    };
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      set(open);
+      if (open) ($('[aria-pressed="true"]', list) || $('button', list)).focus({ preventScroll: true });
+    });
+    list.addEventListener('click', (e) => { if (e.target.closest('[data-lang]')) { set(false); btn.focus({ preventScroll: true }); } });
+    list.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      e.preventDefault();
+      const items = $('button', list);
+      const i = items.indexOf(document.activeElement);
+      items[(i + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length].focus();
+    });
+    document.addEventListener('click', (e) => { if (!dd.contains(e.target)) set(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && dd.classList.contains('is-open')) { set(false); btn.focus(); } });
+    document.addEventListener('langchange', sync);
+    sync();
+  }
+
+  /* Entradas al bajar: cada bloque marcado con data-reveal aparece una vez */
+  function initReveal() {
+    const els = $$('[data-reveal]');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) { els.forEach((el) => el.classList.add('is-in')); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+    els.forEach((el) => io.observe(el));
+  }
+
+  /* Cifras que cuentan hasta su valor cuando aparecen */
+  function initCount() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    $$('[data-count]').forEach((el) => {
+      const end = Number(el.dataset.count);
+      const host = el.closest('[data-reveal]');
+      if (!host || !Number.isFinite(end)) return;
+      el.textContent = '0';
+      const run = () => {
+        const dur = 1300;
+        const t0 = performance.now();
+        const step = (t) => {
+          const k = Math.min(1, (t - t0) / dur);
+          el.textContent = String(Math.round(end * (1 - Math.pow(1 - k, 3))));
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+        setTimeout(() => { el.textContent = String(end); }, dur + 400); // por si la pestaña no pinta
+      };
+      if (host.classList.contains('is-in')) { setTimeout(run, 250); return; }
+      const mo = new MutationObserver(() => { if (host.classList.contains('is-in')) { mo.disconnect(); setTimeout(run, 250); } });
+      mo.observe(host, { attributes: true, attributeFilter: ['class'] });
+    });
+  }
+
+  /* Barra: marca la sección en la que se está y, sin línea de tiempo de scroll, mueve el avance */
+  function initSpy() {
+    const nav = $('.hdr__nav');
+    const ind = nav && $('.hdr__ind', nav);
+    if (!ind) return;
+    const place = (a) => {
+      if (!a || !a.offsetWidth) { nav.style.setProperty('--o', '0'); return; }
+      nav.style.setProperty('--x', a.offsetLeft + 'px');
+      nav.style.setProperty('--w', a.offsetWidth + 'px');
+      nav.style.setProperty('--o', '1');
+    };
+    const pairs = $$('a[href^="#"]', nav).map((a) => [a, $(a.getAttribute('href'))]).filter(([, s]) => s);
+    let current = $('a[aria-current]', nav);
+    const update = () => {
+      if (pairs.length) {
+        const y = window.innerHeight * 0.38;
+        let hit = null;
+        pairs.forEach(([a, s]) => { const r = s.getBoundingClientRect(); if (r.top <= y && r.bottom > y) hit = a; });
+        if (hit !== current) {
+          pairs.forEach(([a]) => a.removeAttribute('aria-current'));
+          if (hit) hit.setAttribute('aria-current', 'location');
+          current = hit;
+        }
+      }
+      place(current);
+    };
+    const bar = $('.hdr__progress');
+    const timeline = window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()');
+    const progress = () => {
+      if (!bar || timeline) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.setProperty('--p', String(max > 0 ? Math.min(1, window.scrollY / max) : 0));
+    };
+    let raf = 0;
+    const onScroll = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; update(); progress(); }); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    document.addEventListener('langchange', () => setTimeout(() => place(current), 60));
+    if (document.fonts) document.fonts.ready.then(() => place(current));
+    update(); progress();
+  }
+
+  /* Con «reducir movimiento», las banderas se quedan quietas */
+  function initMotion() {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    $$('#sprite animate, #sprite animateTransform').forEach((a) => a.remove());
+  }
+
   /* Relojes: hora, fecha en el idioma de cada país y desfase UTC */
   const fmts = new Map();
   const fmt = (loc, opt) => {
@@ -80,7 +198,7 @@
     const panel = names[0].closest('.world');
     const cs = getComputedStyle(panel);
     const inner = panel.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-    const widest = Math.max(...names.map((n) => widthAt100(n.textContent.trim(), '400 {s} "Bespoke Serif"', -0.03)));
+    const widest = Math.max(...names.map((n) => widthAt100(n.textContent.trim(), '600 {s} Inter', -0.035)));
     const cap = window.matchMedia('(max-width: 899px)').matches ? 76 : 84;
     const size = Math.max(30, Math.min(cap, Math.floor((inner / widest) * 100 * 0.96)));
     root.style.setProperty('--world-fs', size + 'px');
@@ -262,6 +380,11 @@
   function boot() {
     safe(initHeader, 'header');
     safe(initMenu, 'menu');
+    safe(initLangs, 'langs');
+    safe(initMotion, 'motion');
+    safe(initReveal, 'reveal');
+    safe(initCount, 'count');
+    safe(initSpy, 'spy');
     safe(initClocks, 'clocks');
     safe(initFit, 'fit');
     safe(initWorlds, 'worlds');
