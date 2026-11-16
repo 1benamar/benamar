@@ -557,6 +557,29 @@
     document.addEventListener('langchange', () => setTimeout(splitHero, 0));
   }
 
+  /* 9. Carriles del móvil (servicios y testimonios): puntos que marcan la tarjeta a la vista */
+  function initRails() {
+    $$('.services__grid, .svc-strip__grid, .testi__grid').forEach((rail) => {
+      const items = [...rail.children];
+      if (items.length < 2) return;
+      const dots = document.createElement('div');
+      dots.className = 'rail-dots';
+      dots.setAttribute('aria-hidden', 'true');
+      dots.innerHTML = items.map(() => '<i></i>').join('');
+      rail.after(dots);
+      const ds = [...dots.children];
+      let raf = 0;
+      const update = () => {
+        raf = 0;
+        const max = rail.scrollWidth - rail.clientWidth;
+        const k = max > 0 ? Math.round((rail.scrollLeft / max) * (items.length - 1)) : 0;
+        ds.forEach((d, i) => d.classList.toggle('is-on', i === k));
+      };
+      rail.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+      update();
+    });
+  }
+
   function boot() {
     safe(initHeader, 'header');
     safe(initMenu, 'menu');
@@ -573,6 +596,7 @@
     safe(initHero, 'hero');
     safe(initMapa, 'mapa');
     safe(initPausa, 'pausa');
+    safe(initRails, 'rails');
     safe(initWizard, 'wizard');
     safe(initWa, 'wa');
     safe(initLightbox, 'lightbox');

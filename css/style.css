@@ -1924,3 +1924,45 @@ html.lb-open { overflow: hidden; }
   .facts--team > div:nth-child(3) { border-top: 0; }
   .facts--team dd { font-size: .98rem; }
 }
+
+/* ═════════ Estructura en móvil (16-11-2026) ═════════
+   Misma composición centrada, más corta: servicios y testimonios en un carril que se desliza
+   de lado (la siguiente tarjeta asoma), paneles de país y fases más compactos. */
+.rail-dots { display: none; }
+@media (max-width: 759px) {
+  :root { --sec: 64px; }
+
+  /* Carril */
+  .services__grid, .svc-strip__grid, .testi__grid {
+    display: grid; grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 84%;
+    width: 100%; max-width: none; margin-inline: 0; padding: 4px var(--gutter) 8px; gap: 12px;
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .services__grid::-webkit-scrollbar, .svc-strip__grid::-webkit-scrollbar, .testi__grid::-webkit-scrollbar { display: none; }
+  .services__grid > *, .svc-strip__grid > *, .testi__grid > * { scroll-snap-align: start; min-width: 0; }
+  html.js .services__grid > [data-reveal], html.js .svc-strip__grid > [data-reveal], html.js .testi__grid > [data-reveal] { opacity: 1; translate: none; }
+  .rail-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+  .rail-dots i { width: 6px; height: 6px; border-radius: 3px; background: currentColor; opacity: .3; transition: width .3s var(--ease-out), opacity .3s var(--ease-out); }
+  .rail-dots i.is-on { width: 18px; opacity: .9; }
+  .services .rail-dots, .svc-strip .rail-dots, .testi .rail-dots { color: var(--paper); }
+
+  /* Paneles de país más bajos */
+  .worlds__grid { gap: 10px; }
+  .world { padding: 20px 20px 18px; }
+  .world__flag { width: 54px; height: 36px; margin-bottom: 8px; }
+  .world__name { font-size: clamp(2.1rem, 10.5vw, 2.6rem); }
+  .world__local { margin: 4px 0 0; font-size: .9rem; min-height: 0; }
+  .world__local.is-same:not(:has(.ar)) { display: none; }
+  .world > .btn { margin-top: 16px; }
+  .world > :nth-last-child(2) { margin-bottom: 0; }
+
+  /* Fases y compromisos */
+  .steps { gap: 10px; }
+  .steps li { padding: 18px 20px 20px; }
+  .promises { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .promises li { justify-content: flex-start; text-align: left; padding: 14px 12px; font-size: .92rem; }
+  .promises li + li, .promises li:nth-child(2n) { border-left: 0; border-top: 0; }
+  .promises li:nth-child(2n) { border-left: 1px solid rgba(243, 240, 234, .2); }
+  .promises li:nth-child(n+3) { border-top: 1px solid rgba(243, 240, 234, .2); }
+}
