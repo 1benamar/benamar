@@ -111,10 +111,17 @@
     const nav = $('.hdr__nav');
     const ind = nav && $('.hdr__ind', nav);
     if (!ind) return;
+    // Primero se mide y después se escribe, y solo si algo cambia (sin recálculos forzados al bajar)
+    let puesto = '';
     const place = (a) => {
-      if (!a || !a.offsetWidth) { nav.style.setProperty('--o', '0'); return; }
-      nav.style.setProperty('--x', a.offsetLeft + 'px');
-      nav.style.setProperty('--w', a.offsetWidth + 'px');
+      const w = a ? a.offsetWidth : 0;
+      const x = a ? a.offsetLeft : 0;
+      const clave = w ? x + ':' + w : 'off';
+      if (clave === puesto) return;
+      puesto = clave;
+      if (!w) { nav.style.setProperty('--o', '0'); return; }
+      nav.style.setProperty('--x', x + 'px');
+      nav.style.setProperty('--w', w + 'px');
       nav.style.setProperty('--o', '1');
     };
     const pairs = $$('a[href^="#"]', nav).map((a) => [a, $(a.getAttribute('href'))]).filter(([, s]) => s);
@@ -128,9 +135,9 @@
           pairs.forEach(([a]) => a.removeAttribute('aria-current'));
           if (hit) hit.setAttribute('aria-current', 'location');
           current = hit;
+          place(current);
         }
       }
-      place(current);
     };
     const bar = $('.hdr__progress');
     const timeline = window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()');
@@ -142,10 +149,11 @@
     let raf = 0;
     const onScroll = () => { if (raf) return; raf = requestAnimationFrame(() => { raf = 0; update(); progress(); }); };
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    document.addEventListener('langchange', () => setTimeout(() => place(current), 60));
-    if (document.fonts) document.fonts.ready.then(() => place(current));
-    update(); progress();
+    const recolocar = () => { puesto = ''; place(current); };
+    window.addEventListener('resize', () => { onScroll(); recolocar(); });
+    document.addEventListener('langchange', () => setTimeout(recolocar, 60));
+    if (document.fonts) document.fonts.ready.then(recolocar);
+    update(); progress(); place(current);
   }
 
   /* Con «reducir movimiento», las banderas se quedan quietas */
@@ -660,8 +668,16 @@
     };
     const pedir = () => { if (!raf && mando) raf = requestAnimationFrame(paso); };
     document.addEventListener('visibilitychange', () => { if (!document.hidden) pedir(); });
-    // Fuera de la pantalla el vaivén se detiene
-    visible(hero, (si) => { if (flota) { if (si) flota.play(); else flota.pause(); } });
+    // Fuera de la pantalla el vaivén se detiene y la marca deja de dibujarse (sus capas en 3D no cuestan nada al bajar)
+    visible(marca, (si) => { marca.classList.toggle('is-fuera', !si); if (flota) { if (si) flota.play(); else flota.pause(); } });
+    // Mientras se desplaza la página, la marca se queda quieta (sin trabajo por fotograma) y sigue al parar
+    let parada = 0;
+    window.addEventListener('scroll', () => {
+      if (!flota || mando) return;
+      if (flota.playState === 'running') flota.pause();
+      clearTimeout(parada);
+      parada = setTimeout(() => { if (flota && !mando && !marca.classList.contains('is-fuera')) flota.play(); }, 180);
+    }, { passive: true });
   }
 
   function boot() {

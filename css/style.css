@@ -2036,44 +2036,76 @@ html.lb-open { overflow: hidden; }
   .hdr__nav a { letter-spacing: .005em; }
 }
 
-/* ═════════ Equipo como la referencia del cliente (16-11-2026) ═════════
-   Tarjeta café con cuadrícula y la foto en color como una pegatina (borde crema, un poco girada),
-   etiqueta flotante en la esquina; al lado, título, texto y enlace. */
+/* ═════════ Equipo (16-11-2026; etiqueta de drop desde el 17-11-2026) ═════════
+   Dos columnas: a la izquierda, la foto dentro de una etiqueta de producto de edición limitada; a la derecha,
+   título, texto y enlace. La etiqueta es papel crema con tinta café: filo de tres colores, marca y temporada,
+   «Un mismo equipo» con su número, la foto con filete, ficha técnica con datos reales (origen, mercados,
+   idiomas y socios) y, al pie, «Hecho en Barcelona» con un código de barras Code 128 que se lee: BNMR-001.
+   Sustituye a la tarjeta café, a la foto como pegatina y a la baraja de póker. */
 .team__duo { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); align-items: center; gap: clamp(40px, 6vw, 96px); max-width: 1160px; }
-.team__card {
-  position: relative; isolation: isolate; aspect-ratio: 1 / 1.08; display: grid; place-items: center;
-  border-radius: 22px;
-  background:
-    linear-gradient(rgba(245, 230, 210, .07) 1px, transparent 1px) 0 0 / 64px 64px,
-    linear-gradient(90deg, rgba(245, 230, 210, .07) 1px, transparent 1px) 0 0 / 64px 64px,
-    radial-gradient(120% 90% at 28% 18%, #6A4129, #3B2A1F 62%, #2A1F18);
-  box-shadow: inset 0 0 0 1px rgba(245, 230, 210, .1), 0 40px 70px -46px rgba(30, 20, 12, .7);
+.team__card { display: flex; justify-content: center; }
+.etiqueta {
+  position: relative; width: min(100%, 440px); padding: 0 18px 16px;
+  container-type: inline-size;
+  border: 2px solid var(--ink); border-radius: 10px; overflow: hidden;
+  color: var(--ink);
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27220%27%20height%3D%27220%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.32%20%200%200%200%200%20.22%20%200%200%200%200%20.12%20%200%200%200%20.09%200%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url%28%23n%29%27%2F%3E%3C%2Fsvg%3E") 0 0 / 220px 220px, linear-gradient(180deg, #FDF9F2, #F4EBDC);
+  box-shadow: 0 1px 1px rgba(40, 14, 6, .16), 0 12px 20px -12px rgba(40, 14, 6, .32), 0 40px 60px -34px rgba(40, 14, 6, .5);
+  transition: translate .5s var(--ease-out), box-shadow .5s var(--ease-out);
 }
-.team__foto {
-  margin: 0; width: 74%; rotate: -3deg;
-  padding: 10px; border-radius: 14px; background: #FBF7F1;
-  box-shadow: 0 2px 0 rgba(255, 255, 255, .4) inset, 0 26px 40px -22px rgba(10, 6, 3, .8), 0 4px 10px rgba(10, 6, 3, .3);
-  transition: rotate .6s var(--ease-out), scale .6s var(--ease-out);
-}
-/* Recorte cerca de los dos (la foto original tiene mucho paisaje) */
-.team__recorte { display: block; overflow: hidden; border-radius: 6px; aspect-ratio: 4 / 5; }
+.etiqueta__tri { width: auto; height: 6px; gap: 0; margin: 0 -18px 14px; }
+.etiqueta__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
+.etiqueta__marca { display: inline-flex; align-items: center; gap: 7px; font: 700 .86rem/1 "Inter", -apple-system, "Segoe UI", sans-serif; letter-spacing: .045em; }
+.etiqueta__b { width: 22px; height: 22px; flex-shrink: 0; }
+.etiqueta__b path { stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.etiqueta__b text { fill: currentColor; font: 800 17px "Inter", -apple-system, sans-serif; }
+.etiqueta__temporada { padding: 5px 8px 4px; border-radius: 4px; background: var(--ink); color: var(--paper); font: 700 .72rem/1 var(--mono); letter-spacing: .14em; }
+.etiqueta__titulo { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 14px 0 12px; font: 800 1.05rem/1.15 "Inter", -apple-system, "Segoe UI", sans-serif; letter-spacing: .01em; text-transform: uppercase; }
+.etiqueta__num { flex-shrink: 0; font: 500 .7rem/1 var(--mono); letter-spacing: .12em; color: var(--ink-3); }
+/* La foto, a sangre dentro de un filete de tinta; recorte cerca de los dos (la original tiene mucho paisaje) */
+.team__foto { position: relative; margin: 0; border-radius: 4px; overflow: hidden; background: #2A2520; box-shadow: 0 0 0 1px var(--ink); }
+.team__recorte { display: block; overflow: hidden; aspect-ratio: 4 / 5; }
 .team__foto img { display: block; width: 100%; height: 100%; object-fit: cover; scale: 1.35; transform-origin: 42% 88%; filter: saturate(1.08) contrast(1.03); transition: scale .8s var(--ease-out); background: var(--lq, none) center / cover no-repeat; }
-.team__tag {
-  position: absolute; right: -14px; bottom: 26px; rotate: 3deg; z-index: 1;
-  display: grid; gap: 4px; padding: 12px 16px 13px; border-radius: 12px;
-  background: #1E1813; color: var(--paper); box-shadow: inset 0 0 0 1px rgba(245, 230, 210, .12), 0 18px 30px -16px rgba(10, 6, 3, .7);
-  font: 500 .95rem/1.15 "Inter", -apple-system, "Segoe UI", sans-serif;
+/* Ficha técnica: cuatro columnas separadas por filos; en etiquetas estrechas, dos por dos */
+.etiqueta__datos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 16px 0 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.etiqueta__datos > div { min-width: 0; padding: 10px 6px 11px 10px; border-left: 1px solid var(--line-2); }
+.etiqueta__datos > div:first-child { padding-left: 0; border-left: 0; }
+.etiqueta__datos dt { font: 500 .6rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.etiqueta__datos dd { margin: 7px 0 0; font: 700 .95rem/1.1 "Inter", -apple-system, "Segoe UI", sans-serif; letter-spacing: -.01em; white-space: nowrap; }
+@container (max-width: 395px) {
+  .etiqueta__datos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .etiqueta__datos > div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .etiqueta__datos > div:nth-child(n + 3) { border-top: 1px solid var(--line-2); }
 }
-.team__tag-k { font: 400 .72rem/1 var(--mono); letter-spacing: .12em; color: var(--gold); }
+/* Pie: «Hecho en Barcelona» y el código de barras con su referencia legible */
+.etiqueta__pie { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding-top: 14px; }
+.etiqueta__hecho { max-width: 16ch; font: 700 .66rem/1.4 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+.etiqueta__codigo { position: relative; display: grid; justify-items: center; gap: 5px; flex-shrink: 0; }
+.etiqueta__barras { display: block; width: 123px; height: 30px; fill: var(--ink); }
+.etiqueta__codigo > span { margin-right: -.32em; font: 500 .58rem/1 var(--mono); letter-spacing: .32em; }
+/* Al pasar el ratón, una línea de escáner recorre el código una vez */
+.etiqueta__codigo::after { content: ""; position: absolute; left: -6px; right: -6px; top: 0; height: 2px; border-radius: 2px; background: #D2452B; box-shadow: 0 0 8px 1px rgba(210, 69, 43, .55); opacity: 0; pointer-events: none; }
+@keyframes etiqueta-escaner { 0% { opacity: 0; translate: 0 0; } 12% { opacity: 1; } 50% { translate: 0 28px; } 88% { opacity: 1; } 100% { opacity: 0; translate: 0 0; } }
+/* Al aparecer, el filo de colores se tiende y el código se imprime de izquierda a derecha */
+.js .team__card[data-reveal] .etiqueta__tri i { scale: 0 1; transform-origin: 0 50%; transition: scale .6s var(--ease-out); }
+.js .team__card[data-reveal] .etiqueta__tri i:nth-child(1) { transition-delay: .35s; }
+.js .team__card[data-reveal] .etiqueta__tri i:nth-child(2) { transition-delay: .47s; }
+.js .team__card[data-reveal] .etiqueta__tri i:nth-child(3) { transition-delay: .59s; }
+.js .team__card[data-reveal].is-in .etiqueta__tri i { scale: 1 1; }
+.js .team__card[data-reveal] .etiqueta__barras { clip-path: inset(0 100% 0 0); transition: clip-path 1.1s var(--ease-io) .55s; }
+.js .team__card[data-reveal].is-in .etiqueta__barras { clip-path: inset(0); }
 @media (hover: hover) and (pointer: fine) {
-  .team__card:hover .team__foto { rotate: -1deg; scale: 1.02; }
+  .team__card:hover .etiqueta { translate: 0 -6px; box-shadow: 0 2px 2px rgba(40, 14, 6, .14), 0 18px 28px -14px rgba(40, 14, 6, .36), 0 54px 70px -38px rgba(40, 14, 6, .55); }
   .team__card:hover .team__foto img { scale: 1.4; }
+  .team__card:hover .etiqueta__codigo::after { animation: etiqueta-escaner 1.3s var(--ease-io) .1s 1; }
 }
+/* Texto: título con «Mario & Sami», la primera frase como entrada y el enlace */
 .team__txt { text-align: left; }
 .team__txt .t-hand { font-size: var(--h2); line-height: 1.04; letter-spacing: -0.035em; }
 .team__txt .hand { left: .1em; translate: 0 0; }
-.team__txt .team__p { margin-top: var(--s5); max-width: 52ch; font-size: 1.1rem; line-height: 1.6; color: var(--ink-2); }
+.team__txt .team__p { margin-top: var(--s5); max-width: 52ch; font-size: 1.04rem; line-height: 1.6; color: var(--ink-2); }
 .team__txt .team__p + .team__p { margin-top: 14px; }
+.team__txt .team__lead { font: 600 1.25rem/1.4 "Inter", -apple-system, "Segoe UI", sans-serif; letter-spacing: -.01em; color: var(--ink); }
 .team__link { display: inline-flex; align-items: center; gap: 8px; margin-top: var(--s5); font-weight: 600; color: var(--es); text-decoration: none; }
 .team__link::after { content: "→"; transition: translate .3s var(--ease-out); }
 @media (hover: hover) and (pointer: fine) { .team__link:hover::after { translate: 4px 0; } }
@@ -2082,71 +2114,22 @@ html.lb-open { overflow: hidden; }
   .team__txt { order: -1; text-align: center; }
   .team__txt .hand { left: 50%; translate: -50% 0; }
   .team__txt .team__p { margin-inline: auto; }
-  .team__card { aspect-ratio: 1 / 1.05; }
-  .team__tag { right: 10px; bottom: 16px; }
+  .etiqueta { width: min(100%, 420px); }
 }
-@media (prefers-reduced-motion: reduce) { .team__foto, .team__foto img { transition: none; } }
-
-/* ═════════ Equipo: la foto sobre una baraja de póker en abanico (16-11-2026) ═════════
-   Cinco cartas en SVG (escalera al as) abiertas detrás de la foto como una mano; se despliegan al aparecer
-   y se abren un poco más al pasar el ratón. */
-.team__card { z-index: 0; aspect-ratio: auto; padding: 19% 10% 6%; background: none; box-shadow: none; border-radius: 0; }
-.team__txt { position: relative; z-index: 1; }
-.team__pila { position: relative; width: 100%; max-width: 430px; }
-.team__naipe {
-  position: absolute; left: 50%; top: 50%; width: 84%; height: auto; overflow: visible;
-  translate: -50% -63%; transform-origin: 50% 120%; rotate: var(--r, 0deg);
-  filter: drop-shadow(0 14px 18px rgba(40, 14, 6, .28)) drop-shadow(0 2px 3px rgba(40, 14, 6, .18));
-  transition: rotate 1.1s cubic-bezier(.34, 1.3, .64, 1) var(--dl, 0s);
+@media (max-width: 479px) {
+  .etiqueta { padding: 0 14px 14px; }
+  .etiqueta__tri { margin-inline: -14px; }
+  .etiqueta__titulo { font-size: .95rem; }
 }
-.team__naipe .n-i text { font: 700 40px/1 Georgia, "Times New Roman", serif; }
-.team__naipe .n-fig { font: 700 96px/1 Georgia, "Times New Roman", serif; }
-.team__naipe--1 { --r: -14deg; --dl: .1s; }
-.team__naipe--2 { --r: -7deg; --dl: .18s; }
-.team__naipe--3 { --r: 0deg; --dl: .26s; }
-.team__naipe--4 { --r: 7deg; --dl: .34s; }
-.team__naipe--5 { --r: 14deg; --dl: .42s; }
-.js .team__card[data-reveal]:not(.is-in) .team__naipe { rotate: 0deg; }
-.team__foto { position: relative; z-index: 1; margin: 0 auto; padding: 0; width: 80%; rotate: -1.5deg; border-radius: 20px; overflow: hidden; background: #2A2520; box-shadow: 0 40px 60px -34px rgba(30, 12, 4, .75), inset 0 0 0 1px rgba(255, 255, 255, .06); transition: rotate .6s var(--ease-out), scale .6s var(--ease-out); }
-.team__recorte { border-radius: 0; }
-.team__tag { z-index: 2; right: 4%; bottom: 3%; }
-@media (hover: hover) and (pointer: fine) {
-  .team__card:hover .team__naipe { --dl: 0s; }
-  .team__card:hover .team__naipe--1 { rotate: -18deg; }
-  .team__card:hover .team__naipe--2 { rotate: -9deg; }
-  .team__card:hover .team__naipe--4 { rotate: 9deg; }
-  .team__card:hover .team__naipe--5 { rotate: 18deg; }
-  .team__card:hover .team__foto { rotate: 0deg; scale: 1.015; }
+@media (prefers-reduced-motion: reduce) {
+  .etiqueta, .team__foto img { transition: none; }
+  .js .team__card[data-reveal] .etiqueta__tri i { scale: 1 1; transition: none; }
+  .js .team__card[data-reveal] .etiqueta__barras { clip-path: none; transition: none; }
+  .team__card:hover .etiqueta__codigo::after { animation: none; }
 }
-@media (max-width: 899px) { .team__card { padding: 22% 14% 7%; } .team__pila { max-width: 330px; margin-inline: auto; } .team__tag { right: 0; } }
-@media (prefers-reduced-motion: reduce) { .team__naipe { transition: none; } .js .team__card[data-reveal]:not(.is-in) .team__naipe { rotate: var(--r, 0deg); } }
-
-/* Texto del equipo escrito por ellos: la primera frase, como entrada */
-.team__txt .team__lead { font: 600 1.25rem/1.4 "Inter", -apple-system, "Segoe UI", sans-serif; letter-spacing: -.01em; color: var(--ink); }
-.team__txt .team__p { font-size: 1.04rem; }
 
 /* Portada a pantalla completa también en el móvil (16-11-2026) */
 @media (max-width: 899px) { .hero--full { min-height: 100svh; min-height: 100dvh; } }
-
-/* ═════════ Baraja de lujo (16-11-2026) ═════════
-   Seis cartas: el reverso de BENAMAR al fondo y la escalera al as delante, en abanico simétrico. */
-.team__naipe { width: 76%; filter: drop-shadow(0 1px 1px rgba(40, 14, 6, .22)) drop-shadow(0 12px 16px rgba(40, 14, 6, .26)); }
-.team__naipe .n-i text { font: 700 38px/1 Georgia, "Times New Roman", serif; letter-spacing: -.02em; }
-.team__naipe .n-fig { font: 700 88px/1 Georgia, "Times New Roman", serif; }
-.team__naipe--0 { --r: -17.5deg; --dl: .05s; }
-.team__naipe--1 { --r: -10.5deg; --dl: .12s; }
-.team__naipe--2 { --r: -3.5deg; --dl: .19s; }
-.team__naipe--3 { --r: 3.5deg; --dl: .26s; }
-.team__naipe--4 { --r: 10.5deg; --dl: .33s; }
-.team__naipe--5 { --r: 17.5deg; --dl: .4s; }
-@media (hover: hover) and (pointer: fine) {
-  .team__card:hover .team__naipe--0 { rotate: -22deg; }
-  .team__card:hover .team__naipe--1 { rotate: -13.2deg; }
-  .team__card:hover .team__naipe--2 { rotate: -4.4deg; }
-  .team__card:hover .team__naipe--3 { rotate: 4.4deg; }
-  .team__card:hover .team__naipe--4 { rotate: 13.2deg; }
-  .team__card:hover .team__naipe--5 { rotate: 22deg; }
-}
 
 /* ═════════ Carteles de cifras de más calidad (16-11-2026) ═════════
    Papel con fibra y manchas suaves, luz desde arriba y bordes tostados; doble filete con «Nº 01…04» impreso;
@@ -2212,3 +2195,8 @@ html.lb-open { overflow: hidden; }
 .js .stats .stat[data-reveal]:not(.is-in) .ring__aguja { rotate: -360deg; }
 .stats .stat__viz--ring svg { width: 72px; height: 72px; }
 @media (prefers-reduced-motion: reduce) { .stats .ring__aguja { transition: none; } .js .stats .stat[data-reveal]:not(.is-in) .ring__aguja { rotate: 0deg; } }
+
+/* Fluidez (17-11-2026): la foto de la portada, en su propia capa para el efecto de profundidad al bajar */
+@supports (animation-timeline: scroll()) { .hero__bg img { will-change: translate; } }
+/* Con la portada fuera de la pantalla, la marca en relieve no se dibuja (conserva su hueco) */
+.marca3d.is-fuera { content-visibility: hidden; }
