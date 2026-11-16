@@ -2124,3 +2124,6 @@ html.lb-open { overflow: hidden; }
 /* Texto del equipo escrito por ellos: la primera frase, como entrada */
 .team__txt .team__lead { font: 600 1.25rem/1.4 "Inter", -apple-system, "Segoe UI", sans-serif; letter-spacing: -.01em; color: var(--ink); }
 .team__txt .team__p { font-size: 1.04rem; }
+
+/* Portada a pantalla completa también en el móvil (16-11-2026) */
+@media (max-width: 899px) { .hero--full { min-height: 100svh; min-height: 100dvh; } }
