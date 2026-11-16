@@ -107,7 +107,7 @@
     team_p: 'BENAMAR started in Barcelona with a simple idea: marketing doesn’t have to be complicated or impersonal. We treat every project as our own, and you always talk to the person who makes the decisions.',
     tf1_t: 'Base', tf1_d: 'Barcelona',
     tf2_t: 'Clients', tf2_d: '3 countries',
-    tf3_t: 'Languages', tf3_d: 'ES · EN · FR · AR · RO',
+    tf3_t: 'Languages', tf3_d: 'ES EN FR AR RO',
     tf4_t: 'Hours', tf4_d: '8:00 to 21:00',
 
     reviews_h: 'Reviews on Google',
@@ -249,7 +249,7 @@
     team_p: 'BENAMAR est née à Barcelone d’une idée simple : le marketing n’a pas à être compliqué ni impersonnel. Nous nous impliquons dans chaque projet comme si c’était le nôtre, et vous parlez toujours à la personne qui décide.',
     tf1_t: 'Base', tf1_d: 'Barcelone',
     tf2_t: 'Clients', tf2_d: '3 pays',
-    tf3_t: 'Langues', tf3_d: 'ES · EN · FR · AR · RO',
+    tf3_t: 'Langues', tf3_d: 'ES EN FR AR RO',
     tf4_t: 'Horaires', tf4_d: '8 h à 21 h',
 
     reviews_h: 'Avis sur Google',
@@ -391,7 +391,7 @@
     team_p: 'BENAMAR a pornit în Barcelona de la o idee simplă: marketingul nu trebuie să fie complicat sau impersonal. Ne implicăm în fiecare proiect ca și cum ar fi al nostru, iar dumneavoastră vorbiți mereu cu cine ia deciziile.',
     tf1_t: 'Baza', tf1_d: 'Barcelona',
     tf2_t: 'Clienți', tf2_d: '3 țări',
-    tf3_t: 'Limbi', tf3_d: 'ES · EN · FR · AR · RO',
+    tf3_t: 'Limbi', tf3_d: 'ES EN FR AR RO',
     tf4_t: 'Program', tf4_d: '8:00 - 21:00',
 
     reviews_h: 'Recenzii pe Google',

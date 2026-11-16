@@ -1830,3 +1830,97 @@ html.lb-open { overflow: hidden; }
 @keyframes waAviso { 0% { opacity: .9; scale: 1; } 45%, 100% { opacity: 0; scale: 1.5; } }
 @media (hover: hover) and (pointer: fine) { .wa-float:hover::after { animation: none; } }
 @media (prefers-reduced-motion: reduce) { .wa-float.is-on::after { animation: none; } }
+
+
+/* ═════════ Botones nuevos (16-11-2026) ═════════
+   Regla de forma de toda la web: tarjetas y paneles 14 px, botones 12 px (los pequeños 10 px),
+   campos 10 px y barra 18 px. Los botones que llevan a algún sitio guardan su flecha en una
+   «tecla» cuadrada dentro del botón; al pasar el ratón la flecha la cruza y entra otra. */
+:root {
+  --flecha-crema: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23F5EFE6%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%2012h14M13%206l6%206-6%206%22%2F%3E%3C%2Fsvg%3E");
+  --flecha-tinta: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%231E1813%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M5%2012h14M13%206l6%206-6%206%22%2F%3E%3C%2Fsvg%3E");
+}
+.btn { border-radius: 12px; min-height: 56px; padding: 0 26px; letter-spacing: -.005em; }
+.btn--sm { border-radius: 10px; min-height: 44px; padding: 0 18px; }
+.btn::before { content: none; }
+.btn:active { scale: .97; }
+
+/* La tecla con la flecha */
+.hdr__cta, .hero__cta .btn--light, .world .btn, .country-info__cta .btn, .form__next .btn, .form__end .btn:not(.form__back), .menu__foot .btn { --k: var(--paper); --ka: var(--flecha-tinta); gap: 16px; padding: 0 6px 0 24px; }
+.hdr__cta::after, .hero__cta .btn--light::after, .world .btn::after, .country-info__cta .btn::after, .form__next .btn::after, .form__end .btn:not(.form__back)::after, .menu__foot .btn::after {
+  content: ""; flex-shrink: 0; width: 44px; height: 44px; border-radius: 8px;
+  -webkit-mask: none; mask: none; translate: none;
+  background-color: var(--k);
+  background-image: var(--ka), var(--ka);
+  background-size: 16px 16px; background-repeat: no-repeat;
+  background-position: 50% 50%, -24px 50%;
+  transition: background-position .5s var(--ease-out), background-color .3s var(--ease-out);
+}
+.hdr__cta { gap: 12px; padding: 0 5px 0 16px; }
+.hdr__cta::after { width: 34px; height: 34px; border-radius: 7px; background-size: 14px 14px; }
+/* Botón crema: tecla café; botones de los paneles de país: tecla translúcida que toma el color del país */
+.hero__cta .btn--light, .hdr__cta { --k: var(--ink); --ka: var(--flecha-crema); }
+.world .btn { --k: rgba(245, 239, 230, .16); --ka: var(--flecha-crema); }
+@media (hover: hover) and (pointer: fine) {
+  .hdr__cta:hover::after, .hero__cta .btn--light:hover::after, .world .btn:hover::after, .country-info__cta .btn:hover::after, .form__next .btn:hover::after, .form__end .btn:not(.form__back):hover::after, .menu__foot .btn:hover::after { translate: none; background-position: calc(100% + 24px) 50%, 50% 50%; }
+  .world .btn:hover { --k: var(--c, var(--ink)); }
+}
+@media (prefers-reduced-motion: reduce) { .hdr__cta::after, .hero__cta .btn--light::after, .world .btn::after, .country-info__cta .btn::after, .form__next .btn::after, .form__end .btn:not(.form__back)::after, .menu__foot .btn::after { transition: background-color .3s var(--ease-out); } }
+
+/* Botones anchos: en los paneles de país y en el menú el texto va centrado (con un hueco invisible
+   a la izquierda que equilibra la tecla); en los de ancho mínimo, texto a la izquierda y tecla a la derecha */
+.world .btn, .menu__foot .btn { justify-content: space-between; padding: 0 6px; }
+.world .btn::before, .menu__foot .btn::before { content: ""; position: static; inset: auto; z-index: auto; flex-shrink: 0; width: 44px; height: 1px; background: none; translate: none; transition: none; }
+.country-info__cta .btn, .form__next .btn, .form__end .btn:not(.form__back) { justify-content: space-between; padding: 0 6px 0 26px; }
+@media (max-width: 759px) {
+  .hero__cta .btn--light, .country-info__cta .btn, .form__next .btn, .form__end .btn:not(.form__back) { justify-content: space-between; padding: 0 6px; }
+  .hero__cta .btn--light::before, .country-info__cta .btn::before, .form__next .btn::before, .form__end .btn:not(.form__back)::before { content: ""; position: static; inset: auto; z-index: auto; flex-shrink: 0; width: 44px; height: 1px; background: none; translate: none; transition: none; }
+}
+
+/* Botones secundarios (WhatsApp, email, atrás): mismo contorno, sin tecla */
+.form__end .form__back::after { content: none; }
+.form__back { padding: 0 24px; }
+
+/* Lo que rodea a los botones sigue la misma regla */
+.hdr { border-radius: 18px; }
+@media (max-width: 899px) { .hdr { border-radius: 16px; } }
+.lang-dd__btn { border-radius: 10px; }
+.lang-dd__list { border-radius: 12px; }
+.lang-dd__list button { border-radius: 8px; }
+.world, .other, .channel, .country-info .country__facts > div { border-radius: 14px; }
+.contact__card { border-radius: 18px; }
+.field input:not([type="checkbox"]), .field select, .field textarea { border-radius: 10px; }
+.form__fallback { border-radius: 12px; }
+
+/* Logo más pequeño en toda la web (16-11-2026): barra y pie, en escritorio y móvil */
+.brand { gap: .5rem; }
+.brand__mark { width: 24px; height: 24px; }
+.brand__word { font-size: .86rem; letter-spacing: .14em; }
+.ftr__logo { font-size: .95rem; gap: 10px; }
+.ftr__logo-mark { width: 30px; height: 30px; }
+@media (max-width: 759px) {
+  .brand__mark { width: 22px; height: 22px; }
+  .brand__word { font-size: .8rem; }
+}
+/* Logo más compacto: letras juntas y la marca pegada a la palabra */
+.brand { gap: 7px; }
+.brand__word { letter-spacing: .045em; }
+.ftr__logo { gap: 8px; letter-spacing: .045em; }
+
+/* Ficha del equipo más sobria (16-11-2026): sin iconos de colores; cada dato lleva su nombre
+   en pequeño encima, columnas separadas por un filo fino. En móvil, una tabla de dos columnas. */
+.facts--team { padding: 18px 6px; }
+.facts--team > div { flex-direction: column; justify-content: center; align-items: center; gap: 6px; padding: 2px 34px; text-align: center; }
+.facts--team > div::before { content: none; }
+.facts--team dt {
+  position: static !important; width: auto; height: auto; overflow: visible; clip-path: none;
+  font: 500 .75rem/1.2 var(--f-text); letter-spacing: .03em; text-transform: none; color: rgba(243, 230, 214, .56);
+}
+.facts--team dd { font: 600 1.02rem/1.25 "Inter", -apple-system, "Segoe UI", sans-serif; letter-spacing: -.005em; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--paper); }
+@media (max-width: 599px) {
+  .facts--team { width: min(100% - 80px, 420px); grid-template-columns: 1fr; justify-items: stretch; padding: 4px 20px; row-gap: 0; }
+  .facts--team > div, .facts--team > div:nth-child(3) { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 16px; padding: 13px 0; text-align: left; }
+  .facts--team > div + div:not(:nth-child(2)) { border-top: 1px solid rgba(243, 230, 214, .12); }
+  .facts--team > div:nth-child(3) { border-top: 0; }
+  .facts--team dd { font-size: .98rem; }
+}
