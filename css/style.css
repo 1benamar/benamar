@@ -2127,3 +2127,88 @@ html.lb-open { overflow: hidden; }
 
 /* Portada a pantalla completa también en el móvil (16-11-2026) */
 @media (max-width: 899px) { .hero--full { min-height: 100svh; min-height: 100dvh; } }
+
+/* ═════════ Baraja de lujo (16-11-2026) ═════════
+   Seis cartas: el reverso de BENAMAR al fondo y la escalera al as delante, en abanico simétrico. */
+.team__naipe { width: 76%; filter: drop-shadow(0 1px 1px rgba(40, 14, 6, .22)) drop-shadow(0 12px 16px rgba(40, 14, 6, .26)); }
+.team__naipe .n-i text { font: 700 38px/1 Georgia, "Times New Roman", serif; letter-spacing: -.02em; }
+.team__naipe .n-fig { font: 700 88px/1 Georgia, "Times New Roman", serif; }
+.team__naipe--0 { --r: -17.5deg; --dl: .05s; }
+.team__naipe--1 { --r: -10.5deg; --dl: .12s; }
+.team__naipe--2 { --r: -3.5deg; --dl: .19s; }
+.team__naipe--3 { --r: 3.5deg; --dl: .26s; }
+.team__naipe--4 { --r: 10.5deg; --dl: .33s; }
+.team__naipe--5 { --r: 17.5deg; --dl: .4s; }
+@media (hover: hover) and (pointer: fine) {
+  .team__card:hover .team__naipe--0 { rotate: -22deg; }
+  .team__card:hover .team__naipe--1 { rotate: -13.2deg; }
+  .team__card:hover .team__naipe--2 { rotate: -4.4deg; }
+  .team__card:hover .team__naipe--3 { rotate: 4.4deg; }
+  .team__card:hover .team__naipe--4 { rotate: 13.2deg; }
+  .team__card:hover .team__naipe--5 { rotate: 22deg; }
+}
+
+/* ═════════ Carteles de cifras de más calidad (16-11-2026) ═════════
+   Papel con fibra y manchas suaves, luz desde arriba y bordes tostados; doble filete con «Nº 01…04» impreso;
+   cifras con un desplazado dorado de serigrafía; cinta de carrocero rasgada en los extremos. */
+.stats__grid { counter-reset: cartel; }
+.stats .stat {
+  counter-increment: cartel;
+  background:
+    radial-gradient(130% 85% at 50% 0%, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 62%),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27220%27%20height%3D%27220%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.32%20%200%200%200%200%20.22%20%200%200%200%200%20.12%20%200%200%200%20.14%200%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url%28%23n%29%27%2F%3E%3C%2Fsvg%3E") 0 0 / 220px 220px,
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27300%27%20height%3D%27300%27%3E%3Cfilter%20id%3D%27f%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.004%20.09%27%20numOctaves%3D%272%27%20seed%3D%279%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.4%20%200%200%200%200%20.28%20%200%200%200%200%20.14%20%200%200%200%20.34%20-.24%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url%28%23f%29%27%2F%3E%3C%2Fsvg%3E") 0 0 / 300px 300px,
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27420%27%20height%3D%27420%27%3E%3Cfilter%20id%3D%27m%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.012%27%20numOctaves%3D%272%27%20seed%3D%274%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%20.55%20%200%200%200%200%20.38%20%200%200%200%200%20.18%20%200%200%200%20.5%20-.18%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url%28%23m%29%27%2F%3E%3C%2Fsvg%3E") 0 0 / 420px 420px,
+    linear-gradient(180deg, #FCF7EE, #EFE2CA);
+  border-radius: 3px;
+  outline: 2px solid rgba(30, 24, 19, .62); outline-offset: -12px;
+  box-shadow:
+    inset 0 0 28px rgba(150, 100, 40, .16),
+    inset 0 1px 0 rgba(255, 255, 255, .6),
+    0 1px 1px rgba(40, 10, 2, .2),
+    0 8px 12px -8px rgba(40, 10, 2, .42),
+    0 30px 40px -26px rgba(40, 10, 2, .62);
+}
+/* Segundo filete, fino, con el número del cartel impreso arriba a la izquierda */
+.stats .stat::after, .stats .stat:hover::after, .stats .stat.is-in::after {
+  content: "Nº " counter(cartel, decimal-leading-zero);
+  position: absolute; inset: 18px; width: auto; height: auto; z-index: 1;
+  rotate: none; translate: none; opacity: 1; animation: none;
+  padding: 8px 10px; border: 1px solid rgba(30, 24, 19, .26); border-radius: 1px; background: none;
+  font: 400 .62rem/1 var(--mono); letter-spacing: .16em; color: rgba(30, 24, 19, .5); text-align: left;
+  pointer-events: none;
+}
+.stats .stat__viz { margin-top: 10px; }
+/* Cifras impresas: tinta del país con un desplazado dorado, como una serigrafía */
+.stats .stat__n strong, .stats .stat__u { text-shadow: 3px 3px 0 rgba(224, 174, 78, .55); }
+.stats .stat__l { color: #3E3128; }
+/* Cinta de carrocero: translúcida, con trama, brillo arriba y extremos rasgados */
+.stats .stat::before {
+  width: 100px; height: 28px; top: -13px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .38), rgba(255, 255, 255, 0) 48%, rgba(120, 80, 30, .06)),
+    repeating-linear-gradient(90deg, rgba(150, 110, 50, .06) 0 1px, transparent 1px 4px),
+    linear-gradient(90deg, rgba(234, 212, 170, .86), rgba(248, 235, 208, .93) 50%, rgba(234, 212, 170, .86));
+  box-shadow: none;
+  filter: drop-shadow(0 1px 1.5px rgba(40, 10, 2, .28));
+  clip-path: polygon(2% 0, 98% 0, 100% 12%, 97% 25%, 100% 38%, 97.5% 50%, 100% 62%, 97% 75%, 100% 88%, 98% 100%, 2% 100%, 0 88%, 3% 75%, 0 62%, 2.5% 50%, 0 38%, 3% 25%, 0 12%);
+}
+/* Etiquetas y casillas, con aspecto de impreso */
+.stats .stat__viz--chips i { background: rgba(255, 255, 255, .45); box-shadow: inset 0 0 0 1.5px rgba(30, 24, 19, .62); font-weight: 700; }
+.stats .stat__viz--days i { box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .18), inset 0 1px 0 rgba(255, 255, 255, .2); }
+@media (hover: hover) and (pointer: fine) {
+  html .stats .stat:hover, html .stats .stat.is-in:hover {
+    box-shadow: inset 0 0 28px rgba(150, 100, 40, .16), inset 0 1px 0 rgba(255, 255, 255, .6), 0 2px 2px rgba(40, 10, 2, .18), 0 14px 20px -12px rgba(40, 10, 2, .45), 0 40px 50px -28px rgba(40, 10, 2, .65);
+  }
+}
+@media (max-width: 599px) { .stats .stat { outline-offset: -9px; } .stats .stat::after, .stats .stat:hover::after, .stats .stat.is-in::after { inset: 14px; padding: 6px 8px; font-size: .56rem; } }
+
+/* Esfera de reloj en el cartel de «24 h»: marcas de las horas y una aguja que da una vuelta al aparecer */
+.stats .ring__marcas line { stroke: rgba(30, 24, 19, .45); stroke-width: 2; stroke-linecap: round; }
+.stats .ring__marcas .ring__m { stroke: rgba(30, 24, 19, .8); stroke-width: 3; }
+.stats .ring__aguja { transform-box: view-box; transform-origin: 60px 60px; transition: rotate 1.6s var(--ease-io) .45s; }
+.stats .ring__aguja line { stroke: var(--ink); stroke-width: 3.4; stroke-linecap: round; }
+.stats .ring__aguja circle { fill: var(--ro); stroke: var(--ink); stroke-width: 1.5; }
+.js .stats .stat[data-reveal]:not(.is-in) .ring__aguja { rotate: -360deg; }
+.stats .stat__viz--ring svg { width: 72px; height: 72px; }
+@media (prefers-reduced-motion: reduce) { .stats .ring__aguja { transition: none; } .js .stats .stat[data-reveal]:not(.is-in) .ring__aguja { rotate: 0deg; } }
