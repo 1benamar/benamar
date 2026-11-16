@@ -251,24 +251,25 @@
 
   /* Formulario */
   const MSG = {
-    name: { es: 'Escriba su nombre.', en: 'Please enter your name.', fr: 'Indiquez votre nom.', ro: 'Scrieți-vă numele.' },
-    email: { es: 'Escriba un email válido, por ejemplo nombre@empresa.com.', en: 'Enter a valid email, for example name@company.com.', fr: 'Saisissez un e-mail valide, par exemple nom@entreprise.com.', ro: 'Introduceți un e-mail valid, de exemplu nume@firma.ro.' },
-    country: { es: 'Elija el país del proyecto.', en: 'Choose the project country.', fr: 'Choisissez le pays du projet.', ro: 'Alegeți țara proiectului.' },
-    service: { es: 'Elija un servicio.', en: 'Choose a service.', fr: 'Choisissez un service.', ro: 'Alegeți un serviciu.' },
-    message: { es: 'Cuéntenos en unas líneas qué necesita.', en: 'Tell us in a few lines what you need.', fr: 'Décrivez votre besoin en quelques lignes.', ro: 'Spuneți-ne în câteva rânduri de ce aveți nevoie.' },
-    consent: { es: 'Acepte la política de privacidad para enviar la solicitud.', en: 'Accept the privacy policy to send the request.', fr: 'Acceptez la politique de confidentialité pour envoyer la demande.', ro: 'Acceptați politica de confidențialitate pentru a trimite cererea.' },
-    sending: { es: 'Enviando…', en: 'Sending…', fr: 'Envoi…', ro: 'Se trimite…' },
+    name: { es: 'Escriba su nombre.', ca: 'Escrigui el seu nom.', en: 'Please enter your name.', fr: 'Indiquez votre nom.', ro: 'Scrieți-vă numele.' },
+    email: { es: 'Escriba un email válido, por ejemplo nombre@empresa.com.', ca: 'Escrigui un correu vàlid, per exemple nom@empresa.cat.', en: 'Enter a valid email, for example name@company.com.', fr: 'Saisissez un e-mail valide, par exemple nom@entreprise.com.', ro: 'Introduceți un e-mail valid, de exemplu nume@firma.ro.' },
+    country: { es: 'Elija el país del proyecto.', ca: 'Triï el país del projecte.', en: 'Choose the project country.', fr: 'Choisissez le pays du projet.', ro: 'Alegeți țara proiectului.' },
+    service: { es: 'Elija un servicio.', ca: 'Triï un servei.', en: 'Choose a service.', fr: 'Choisissez un service.', ro: 'Alegeți un serviciu.' },
+    message: { es: 'Cuéntenos en unas líneas qué necesita.', ca: 'Expliqui’ns en unes línies què necessita.', en: 'Tell us in a few lines what you need.', fr: 'Décrivez votre besoin en quelques lignes.', ro: 'Spuneți-ne în câteva rânduri de ce aveți nevoie.' },
+    consent: { es: 'Acepte la política de privacidad para enviar la solicitud.', ca: 'Accepti la política de privacitat per enviar la sol·licitud.', en: 'Accept the privacy policy to send the request.', fr: 'Acceptez la politique de confidentialité pour envoyer la demande.', ro: 'Acceptați politica de confidențialitate pentru a trimite cererea.' },
+    sending: { es: 'Enviando…', ca: 'Enviant…', en: 'Sending…', fr: 'Envoi…', ro: 'Se trimite…' },
     done: {
       es: (n) => `Solicitud enviada${n ? ', ' + n : ''}. Le respondemos en menos de 24 horas.`,
+      ca: (n) => `Sol·licitud enviada${n ? ', ' + n : ''}. Li responem en menys de 24 hores.`,
       en: (n) => `Request sent${n ? ', ' + n : ''}. We’ll reply in under 24 hours.`,
       fr: (n) => `Demande envoyée${n ? ', ' + n : ''}. Nous vous répondons en moins de 24 heures.`,
       ro: (n) => `Cererea a fost trimisă${n ? ', ' + n : ''}. Vă răspundem în mai puțin de 24 de ore.`
     },
     // Texto del mensaje que se compone para WhatsApp o email si el envío falla
-    hi: { es: 'Hola, soy', en: 'Hello, I am', fr: 'Bonjour, je suis', ro: 'Bună ziua, sunt' },
-    lCountry: { es: 'País', en: 'Country', fr: 'Pays', ro: 'Țara' },
-    lService: { es: 'Servicio', en: 'Service', fr: 'Service', ro: 'Serviciu' },
-    subject: { es: 'Solicitud de propuesta', en: 'Proposal request', fr: 'Demande de proposition', ro: 'Cerere de ofertă' }
+    hi: { es: 'Hola, soy', ca: 'Hola, sóc', en: 'Hello, I am', fr: 'Bonjour, je suis', ro: 'Bună ziua, sunt' },
+    lCountry: { es: 'País', ca: 'País', en: 'Country', fr: 'Pays', ro: 'Țara' },
+    lService: { es: 'Servicio', ca: 'Servei', en: 'Service', fr: 'Service', ro: 'Serviciu' },
+    subject: { es: 'Solicitud de propuesta', ca: 'Sol·licitud de proposta', en: 'Proposal request', fr: 'Demande de proposition', ro: 'Cerere de ofertă' }
   };
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -488,7 +489,7 @@
   function initLightbox() {
     const items = $$('.gal__item');
     if (!items.length) return;
-    const L = { close: { es: 'Cerrar', en: 'Close', fr: 'Fermer', ro: 'Închide' }, prev: { es: 'Anterior', en: 'Previous', fr: 'Précédente', ro: 'Anterioara' }, next: { es: 'Siguiente', en: 'Next', fr: 'Suivante', ro: 'Următoarea' } };
+    const L = { close: { es: 'Cerrar', ca: 'Tanca', en: 'Close', fr: 'Fermer', ro: 'Închide' }, prev: { es: 'Anterior', ca: 'Anterior', en: 'Previous', fr: 'Précédente', ro: 'Anterioara' }, next: { es: 'Siguiente', ca: 'Següent', en: 'Next', fr: 'Suivante', ro: 'Următoarea' } };
     const chev = (d) => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + d + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const dlg = document.createElement('dialog');
     dlg.className = 'lb';
@@ -557,9 +558,9 @@
     document.addEventListener('langchange', () => setTimeout(splitHero, 0));
   }
 
-  /* 9. Carriles del móvil (servicios y testimonios): puntos que marcan la tarjeta a la vista */
+  /* 9. Carril del móvil (testimonios): puntos que marcan la tarjeta a la vista */
   function initRails() {
-    $$('.services__grid, .svc-strip__grid, .testi__grid').forEach((rail) => {
+    $$('.testi__grid').forEach((rail) => {
       const items = [...rail.children];
       if (items.length < 2) return;
       const dots = document.createElement('div');
@@ -580,6 +581,89 @@
     });
   }
 
+  /* 10. La marca [B] en relieve sobre el titular de la portada: flota sola (animación de la tarjeta
+     gráfica, sin trabajo del procesador) y, con el ratón encima, lo sigue y abre sus esquinas al acercarse. */
+  function initMarca3d() {
+    const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const suave = (dt, tau) => 1 - Math.exp(-dt / tau);
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const visible = (el, cb) => { if ('IntersectionObserver' in window) new IntersectionObserver((en) => cb(en[0].isIntersecting)).observe(el); };
+    const copia = $('.hero--full .hero__copy');
+    const titulo = copia && $('.hero__title', copia);
+    if (!titulo) return;
+    const N = 10;
+    const esq = '<path d="M2 8 L2 2 L8 2"/><path d="M24 2 L30 2 L30 8"/><path d="M2 24 L2 30 L8 30"/><path d="M30 24 L30 30 L24 30"/>';
+    const capa = (i, cosa) => {
+      const t = i / (N - 1);
+      // De delante (crema) hacia atrás (dorado tostado → café): el canto del relieve
+      const c = i === 0 ? '#F5EFE6' : `rgb(${Math.round(lerp(214, 92, t))},${Math.round(lerp(170, 60, t))},${Math.round(lerp(104, 36, t))})`;
+      return `<svg viewBox="0 0 32 32" style="--z:${i};color:${c}" aria-hidden="true">${cosa}</svg>`;
+    };
+    const marca = document.createElement('div');
+    marca.className = 'marca3d';
+    marca.setAttribute('aria-hidden', 'true');
+    let html = '<div class="marca3d__giro"><div class="marca3d__esq">';
+    for (let i = N - 1; i >= 0; i--) html += capa(i, `<g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${esq}</g>`);
+    html += '</div><div class="marca3d__b">';
+    for (let i = N - 1; i >= 0; i--) html += capa(i, '<text x="16" y="22" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-weight="800" font-size="17" fill="currentColor">B</text>');
+    html += '</div></div>';
+    marca.innerHTML = html;
+    copia.insertBefore(marca, titulo);
+    // Mientras la [B] grande se ve, la barra no repite el logo (solo en escritorio, por CSS)
+    if ('IntersectionObserver' in window) new IntersectionObserver((en) => root.classList.toggle('en-portada', en[0].isIntersecting), { rootMargin: '-80px 0px 0px 0px' }).observe(marca);
+    const giro = $('.marca3d__giro', marca);
+    const girar = (x, y) => { giro.style.transform = `rotateX(${x.toFixed(2)}deg) rotateY(${y.toFixed(2)}deg)`; };
+    if (quieto) { girar(-10, 22); return; }
+    const hero = $('.hero--full');
+    // En reposo flota sola con una animación que mueve la tarjeta gráfica (sin trabajo del procesador);
+    // con el ratón encima, la sigue y las esquinas se abren al acercarse.
+    const CICLO = 12000;
+    const pose = (ms) => { const a = (ms / CICLO) * Math.PI * 2; return [-8 + 6 * Math.sin(2 * a), 26 * Math.sin(a)]; };
+    const fotos = Array.from({ length: 49 }, (_, i) => { const [x, y] = pose((i / 48) * CICLO); return { transform: `rotateX(${x.toFixed(2)}deg) rotateY(${y.toFixed(2)}deg)` }; });
+    let flota = null, reloj = 0;
+    const soltarFlota = () => { flota = giro.animate(fotos, { duration: CICLO, iterations: Infinity }); flota.currentTime = reloj % CICLO; giro.style.transform = ''; };
+    soltarFlota();
+    let rx = 0, ry = 0, ab = 0, abPuesto = 0, objX = null, objY = null, objAb = 0, raf = 0, antes = 0, mando = false;
+    hero.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      if (!mando) { mando = true; reloj = flota ? flota.currentTime || 0 : reloj; [rx, ry] = pose(reloj); if (flota) { flota.cancel(); flota = null; } girar(rx, ry); }
+      const r = hero.getBoundingClientRect(), m = marca.getBoundingClientRect();
+      objY = ((e.clientX - r.left) / r.width - 0.5) * 50;
+      objX = -((e.clientY - r.top) / r.height - 0.5) * 34;
+      const d = Math.hypot(e.clientX - (m.left + m.width / 2), e.clientY - (m.top + m.height / 2));
+      objAb = clamp(1 - d / 360, 0, 1);
+      vuelta = null;
+      pedir();
+    });
+    // Al irse el ratón, vuelve en 0,9 s a su vaivén y se lo devuelve a la animación de reposo
+    let vuelta = null;
+    hero.addEventListener('pointerleave', () => { objX = objY = null; objAb = 0; vuelta = null; pedir(); });
+    const paso = (now) => {
+      raf = 0;
+      const dt = antes ? Math.min(now - antes, 64) : 16; antes = now;
+      reloj += dt;
+      const [fx, fy] = pose(reloj);
+      ab = lerp(ab, objAb, suave(dt, 150));
+      if (objX !== null) {
+        rx = lerp(rx, objX, suave(dt, 220)); ry = lerp(ry, objY, suave(dt, 220));
+      } else {
+        if (!vuelta) vuelta = { t: now, x: rx, y: ry };
+        const k = ease(clamp((now - vuelta.t) / 900, 0, 1));
+        rx = lerp(vuelta.x, fx, k); ry = lerp(vuelta.y, fy, k);
+        if (k >= 1) { mando = false; antes = 0; vuelta = null; ab = 0; abPuesto = 0; marca.style.setProperty('--abre', '0'); soltarFlota(); return; }
+      }
+      girar(rx, ry);
+      if (Math.abs(ab - abPuesto) > 0.01 || (ab < 0.01 && abPuesto !== 0)) { abPuesto = ab < 0.01 ? 0 : ab; marca.style.setProperty('--abre', abPuesto.toFixed(3)); }
+      if (!document.hidden) raf = requestAnimationFrame(paso); else antes = 0;
+    };
+    const pedir = () => { if (!raf && mando) raf = requestAnimationFrame(paso); };
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) pedir(); });
+    // Fuera de la pantalla el vaivén se detiene
+    visible(hero, (si) => { if (flota) { if (si) flota.play(); else flota.pause(); } });
+  }
+
   function boot() {
     safe(initHeader, 'header');
     safe(initMenu, 'menu');
@@ -596,6 +680,7 @@
     safe(initHero, 'hero');
     safe(initMapa, 'mapa');
     safe(initPausa, 'pausa');
+    safe(initMarca3d, 'marca3d');
     safe(initRails, 'rails');
     safe(initWizard, 'wizard');
     safe(initWa, 'wa');

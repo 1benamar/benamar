@@ -2,7 +2,7 @@
 // data-i18n="clave" cambia el contenido; data-i18n-attr="aria-label:clave;alt:clave2" cambia atributos.
 // Guarda la elección (?lang=xx, localStorage <site>-lang) y avisa con el evento "langchange".
 // I18N.t({es, en, fr, ro}) devuelve el texto del idioma actual (o el del idioma base).
-// Mismo motor que nou-cafe-mar; aquí el navegador en árabe abre en francés (Marruecos) y el catalán en español.
+// Mismo motor que nou-cafe-mar; aquí el navegador en árabe abre en francés (Marruecos) y el catalán, en catalán.
 (() => {
   const me = document.currentScript;
   const site = me?.dataset.site || 'web';
@@ -42,7 +42,7 @@
   }
 
   const nav = (navigator.language || BASE).slice(0, 2).toLowerCase();
-  const alias = { ca: 'es', gl: 'es', eu: 'es', ar: 'fr', zgh: 'fr', mo: 'ro' };
+  const alias = { gl: 'es', eu: 'es', ar: 'fr', zgh: 'fr', mo: 'ro' };
   const fromNav = LANGS.includes(nav) ? nav : (alias[nav] && LANGS.includes(alias[nav]) ? alias[nav] : (LANGS.includes('en') ? 'en' : BASE));
   const start = new URLSearchParams(location.search).get('lang') || load(KEY) || fromNav;
   const cur = () => document.documentElement.lang;
