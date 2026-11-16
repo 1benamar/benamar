@@ -21,9 +21,8 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/amulya-400.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/panchang-600.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" as="image" imagesrcset="assets/img/portada-900.webp 900w, assets/img/portada-1600.webp 1600w, assets/img/portada-2400.webp 2400w" imagesizes="100vw" fetchpriority="high">
-  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="preload" as="image" imagesrcset="assets/img/portada-900.webp 900w, assets/img/portada-1200.webp 1200w, assets/img/portada-1600.webp 1600w, assets/img/portada-2400.webp 2400w" imagesizes="100vw" fetchpriority="high">
+  <link rel="stylesheet" href="css/style.css?v=5">
   <script>document.documentElement.classList.add('js')</script>
   <script type="application/ld+json">
   {
@@ -129,7 +128,7 @@
     <!-- 1 · Portada -->
     <section class="hero hero--full" id="top" aria-labelledby="hero-title">
       <div class="hero__bg" aria-hidden="true">
-        <img src="assets/img/portada-1600.webp" srcset="assets/img/portada-900.webp 900w, assets/img/portada-1600.webp 1600w, assets/img/portada-2400.webp 2400w" sizes="100vw" width="2400" height="1600" alt="" fetchpriority="high" decoding="async">
+        <img src="assets/img/portada-1600.webp" srcset="assets/img/portada-900.webp 900w, assets/img/portada-1200.webp 1200w, assets/img/portada-1600.webp 1600w, assets/img/portada-2400.webp 2400w" sizes="100vw" width="2400" height="1600" alt="" fetchpriority="high" decoding="async" style="--lq: url(data:image/webp;base64,UklGRtAAAABXRUJQVlA4IMQAAACQBACdASoYABAAPslQoUsnpKMhsAgA8BkJZAC7Ef/tsAbGwjl4Fotn4GodevAA/vRUsP4ZszAFbCnYDr+Exr1f0+Pl4srwpPOr9ivLPTm8JMprPXGb1R1XI7oVBJ7fzPfCFQ0RN8+/PQXGYLFGPXEGsK3OUAErR/nGtzeaDkTHiJJwpA2/3tBsODGolTKBIUxhx5gJRaUHPo5nCzmWlYz0kaBzrPqannTR+NOSaKzk0v4YQdtwFWxo17pBoYdbcWR+HQAA)">
       </div>
       <div class="wrap hero__copy">
         <h1 class="hero__title t-hand" id="hero-title">
@@ -164,10 +163,11 @@
           <a href="rumania.html" tabindex="-1" class="mapa__pais mapa__pais--ro" data-pais="ro"><path pathLength="1" d="M927 113L929 116L932 118L939 120L939 118L941 117L945 117L949 114L953 114L957 115L959 117L960 119L960 121L959 128L958 130L957 132L945 135L946 133L946 131L945 129L947 128L944 127L942 130L943 133L942 135L941 138L940 140L942 140L941 142L938 147L937 149L937 159L935 164L935 166L932 166L927 165L923 164L921 161L920 159L916 160L915 158L912 158L909 158L903 154L897 154L889 156L883 158L876 162L874 165L871 167L867 168L859 168L851 166L843 165L838 165L832 165L823 163L816 162L809 163L808 161L809 159L811 158L812 156L810 154L806 152L804 151L804 149L802 148L801 146L800 143L801 141L803 141L805 140L803 138L800 136L797 137L793 141L791 141L789 139L787 137L783 137L781 136L778 134L775 133L775 131L777 131L779 130L777 129L775 128L775 126L777 124L778 122L776 121L772 119L770 118L767 117L765 116L764 114L762 112L762 110L761 108L762 106L762 104L760 104L759 102L757 100L754 97L752 96L751 94L750 92L756 90L758 91L760 90L761 88L763 87L768 88L769 86L770 84L773 82L772 80L773 77L775 75L778 73L777 71L780 67L781 64L781 62L783 60L786 53L788 51L789 47L790 45L793 42L794 40L797 39L800 38L802 38L804 37L808 33L809 31L812 30L814 27L816 27L820 30L825 30L827 31L833 32L835 32L837 33L840 33L842 32L844 32L846 32L848 34L852 38L855 39L857 39L859 36L866 33L871 32L876 31L881 30L883 28L884 26L885 23L888 22L891 22L894 21L898 23L900 25L902 29L903 32L905 35L905 37L906 39L907 42L910 45L911 47L914 52L915 54L917 56L918 58L922 62L924 64L926 70L927 73L928 75L927 79L928 81L927 84L925 91L924 96L925 99L925 101L926 104L926 107L924 108L926 111L927 113Z"/></a>
           <path class="mapa__ruta mapa__ruta--ma" pathLength="1" d="M348.2 237.1Q235.3 312.4 122.4 507.7"/>
           <path class="mapa__ruta mapa__ruta--ro" pathLength="1" d="M348.2 237.1Q614.1 101.0 880.0 144.9"/>
-          <g class="mapa__ciudad mapa__ciudad--es" transform="translate(348.2 237.1)"><circle class="mapa__pulso" r="9"/><circle class="mapa__punto" r="5.5"/><text x="14" y="5" text-anchor="start" data-i18n="city_es">Barcelona</text></g>
-          <g class="mapa__ciudad mapa__ciudad--ma" transform="translate(122.4 507.7)"><circle class="mapa__pulso" r="9"/><circle class="mapa__punto" r="5.5"/><text x="14" y="5" text-anchor="start" data-i18n="city_ma">Marrakech</text></g>
-          <g class="mapa__ciudad mapa__ciudad--ro" transform="translate(880 144.9)"><circle class="mapa__pulso" r="9"/><circle class="mapa__punto" r="5.5"/><text x="-14" y="5" text-anchor="end" data-i18n="city_ro">Bucarest</text></g>
+          <g class="mapa__ciudad mapa__ciudad--es" transform="translate(348.2 237.1)"><circle class="mapa__punto" r="5.5"/><text x="14" y="5" text-anchor="start" data-i18n="city_es">Barcelona</text></g>
+          <g class="mapa__ciudad mapa__ciudad--ma" transform="translate(122.4 507.7)"><circle class="mapa__punto" r="5.5"/><text x="14" y="5" text-anchor="start" data-i18n="city_ma">Marrakech</text></g>
+          <g class="mapa__ciudad mapa__ciudad--ro" transform="translate(880 144.9)"><circle class="mapa__punto" r="5.5"/><text x="-14" y="5" text-anchor="end" data-i18n="city_ro">Bucarest</text></g>
         </svg>
+        <div class="mapa__ondas"><i class="mapa__onda mapa__onda--es" style="left: 34.82%; top: 37.88%"></i><i class="mapa__onda mapa__onda--ma" style="left: 12.24%; top: 81.10%"></i><i class="mapa__onda mapa__onda--ro" style="left: 88.00%; top: 23.15%"></i></div>
       </div>
 
       <div class="wrap worlds__grid">
@@ -335,7 +335,7 @@
       </div>
       <div class="wrap team__body">
         <figure class="team__photo" data-reveal>
-          <img src="assets/img/equipo-atlas-45-1000.webp" srcset="assets/img/equipo-atlas-45-700.webp 700w, assets/img/equipo-atlas-45-1000.webp 1000w, assets/img/equipo-atlas-45-1400.webp 1400w" sizes="(min-width: 1100px) 1040px, 92vw" width="1000" height="1250" alt="Mario y Sami, de BENAMAR, sentados en unas rocas junto a un río, con montañas detrás" data-i18n-attr="alt:team_alt" loading="lazy" decoding="async">
+          <img src="assets/img/equipo-atlas-45-1000.webp" srcset="assets/img/equipo-atlas-45-700.webp 700w, assets/img/equipo-atlas-45-1000.webp 1000w, assets/img/equipo-atlas-45-1200.webp 1200w, assets/img/equipo-atlas-45-1400.webp 1400w" sizes="(min-width: 1100px) 1040px, 92vw" width="1000" height="1250" alt="Mario y Sami, de BENAMAR, sentados en unas rocas junto a un río, con montañas detrás" data-i18n-attr="alt:team_alt" loading="lazy" decoding="async" style="--lq: url(data:image/webp;base64,UklGRr4CAABXRUJQVlA4WAoAAAAgAAAAFwAAHQAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDgg0AAAALAFAJ0BKhgAHgA/EX63VawnpSMoCAGAIglAGBu7o0nOTKjKqSC+j+NrHABflU9+NXkPToQoAAD+6KboA1NBLK8MXncbmABQ1leeBnGO1l2D3Z5jYdas5o9MCR9Dy/i3/PGKb8DpJ1VLLYrPcfgtstSJrphCvs/GX07Hzu7gK9ccT7aXuvUfxbQTLJDbM3MDChwGnTi1VC0H1qnC6J/akKoGziukDmGUKt//3KQrZhha9mGMBOe9t/x07+uOtawjZR2db+UO7Ls0wsHpi49gAAA=)">
         </figure>
         <dl class="facts facts--team" data-reveal>
             <div><dt data-i18n="tf1_t">Base</dt><dd data-i18n="tf1_d">Barcelona</dd></div>
@@ -593,9 +593,9 @@
     <symbol id="star" viewBox="0 0 24 24"><path d="m12 2.8 2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8Z"/></symbol>
   </svg>
 
-  <script src="js/lang.js?v=4" defer></script>
-  <script src="js/i18n.js?v=4" data-site="benamar" data-base="es" data-langs="es,en,fr,ro" defer></script>
-  <script src="js/main.js?v=4" defer></script>
+  <script src="js/lang.js?v=5" defer></script>
+  <script src="js/i18n.js?v=5" data-site="benamar" data-base="es" data-langs="es,en,fr,ro" defer></script>
+  <script src="js/main.js?v=5" defer></script>
   <script>setTimeout(function () { var h = document.querySelector('.hero'); if (h) h.classList.add('is-in'); }, 2000);</script>
 </body>
 </html>

@@ -1,10 +1,6 @@
 /* BENAMAR · «Tres mundos»
-   Papel + tinta, un color por país. Panchang (marca), Bespoke Serif (titulares), Amulya (texto). */
+   Papel + tinta, un color por país. Inter (titulares), Amulya (texto), Mano (palabra a mano). */
 
-@font-face { font-family: "Panchang"; src: url("../assets/fonts/panchang-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "Bespoke Serif"; src: url("../assets/fonts/bespoke-serif-300.woff2") format("woff2"); font-weight: 300; font-display: swap; }
-@font-face { font-family: "Bespoke Serif"; src: url("../assets/fonts/bespoke-serif-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Bespoke Serif"; src: url("../assets/fonts/bespoke-serif-400i.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
 @font-face { font-family: "Amulya"; src: url("../assets/fonts/amulya-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "Amulya"; src: url("../assets/fonts/amulya-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
 @font-face { font-family: "Amulya"; src: url("../assets/fonts/amulya-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
@@ -30,7 +26,7 @@
   --err: #9B2C1F;
   --accent: var(--ink);
 
-  --f-brand: "Panchang", "Arial Black", system-ui, sans-serif;
+  --f-brand: "Inter", "Arial Black", system-ui, sans-serif;
   --f-display: "Cifras", "Bespoke Serif", Georgia, "Times New Roman", serif;
   --f-text: "Amulya", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
@@ -560,7 +556,6 @@ html[lang="fr"] .country [data-same="fr"], html[lang="ro"] .country [data-same="
 .ftr { background: var(--ink); color: var(--paper); padding: var(--s9) 0 var(--s6); }
 .ftr ::selection { background: var(--paper); color: var(--ink); }
 .ftr :focus-visible { outline-color: var(--paper); }
-.ftr__mark { margin: 0; font: 600 var(--mark-fs, clamp(3rem, 12.6vw, 11.5rem))/.86 var(--f-brand); letter-spacing: .02em; text-align: center; white-space: nowrap; }
 .tri--ftr { margin-top: var(--s5); height: 4px; }
 .ftr__cols { margin-top: var(--s8); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s6); }
 .ftr__h { font: 500 .875rem/1.2 var(--f-text); letter-spacing: .02em; color: rgba(243, 240, 234, .72); margin-bottom: var(--s4); }
@@ -1321,9 +1316,9 @@ h3 { font-family: var(--f-display); font-weight: 400; letter-spacing: -0.02em; }
   transition: opacity .6s var(--ease-out), scale 1.4s var(--ease-out);
 }
 .world::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 40%, rgba(20, 10, 6, .35)); pointer-events: none; }
-.world--es { --city: url("../assets/img/ciudad-barcelona-1100.webp"); }
-.world--ma { --city: url("../assets/img/ciudad-marrakech-1100.webp"); }
-.world--ro { --city: url("../assets/img/ciudad-bucarest-1100.webp"); }
+.world--es { --city: url("../assets/img/ciudad-barcelona-700.webp"); }
+.world--ma { --city: url("../assets/img/ciudad-marrakech-700.webp"); }
+.world--ro { --city: url("../assets/img/ciudad-bucarest-700.webp"); }
 .world__flag { transition: translate .5s var(--ease-out), rotate .5s var(--ease-out); }
 @media (hover: hover) and (pointer: fine) {
   .world:hover::before { opacity: .42; scale: 1.08; }
@@ -1809,3 +1804,29 @@ html.lb-open { overflow: hidden; }
 .steps li::before { content: none; }
 .steps li.on { box-shadow: inset 0 0 0 1px rgba(243, 230, 214, .08); }
 .steps { margin-top: var(--s8); }
+
+
+/* ═════════ Más ligera y más fluida (16-11-2026) ═════════ */
+
+/* Fotos: mientras llega la buena se ve su vista previa difuminada (24 px incrustados), nunca un hueco */
+.hero__bg img, .city__frame img, .gal__item img, .team__photo img { background: var(--lq, none) center / cover no-repeat; }
+
+/* Barra: el desenfoque solo arriba del todo, sobre la foto; al bajar, café casi opaco y sin recalcular el desenfoque en cada fotograma */
+.hdr.is-scrolled { background: rgba(40, 30, 23, .95); -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* Animaciones en bucle solo mientras se ven */
+/* Pulsos del mapa en su propia capa (los mueve la tarjeta gráfica, sin repintar el mapa en cada fotograma) */
+.mapa { position: relative; }
+.mapa__svg { display: block; }
+.mapa__ondas { position: absolute; inset: 0; pointer-events: none; }
+.mapa__onda { position: absolute; width: 1.8%; aspect-ratio: 1; margin: -.9% 0 0 -.9%; border-radius: 50%; background: var(--gold); opacity: 0; animation: pulsoCiudad 2.6s var(--ease-out) infinite; }
+.mapa__onda--ma { animation-delay: .9s; } .mapa__onda--ro { animation-delay: 1.8s; }
+.js .mapa[data-reveal] .mapa__ondas { opacity: 0; transition: opacity .6s var(--ease-out) 2.4s; }
+.js .mapa[data-reveal].is-in .mapa__ondas { opacity: 1; }
+.js .mapa:not(.is-vis) .mapa__onda { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .mapa__onda { animation: none; } }
+.wa-float::after { box-shadow: 0 0 0 2px rgba(224, 174, 78, .6); opacity: 0; animation: none; }
+.wa-float.is-on::after { animation: waAviso 3.2s ease-out 1s infinite; }
+@keyframes waAviso { 0% { opacity: .9; scale: 1; } 45%, 100% { opacity: 0; scale: 1.5; } }
+@media (hover: hover) and (pointer: fine) { .wa-float:hover::after { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .wa-float.is-on::after { animation: none; } }

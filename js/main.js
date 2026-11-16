@@ -391,25 +391,20 @@
     });
   }
 
-  /* 4. Método: la línea se llena al bajar y marca la fase en la que se está */
-  function initSteps() {
-    const ol = $('.steps');
-    const track = $('.steps__track');
-    if (!ol) return;
-    const items = $$('li', ol);
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const r = ol.getBoundingClientRect();
-      const p = Math.max(0, Math.min(1, (window.innerHeight * 0.72 - r.top) / Math.max(1, r.height + window.innerHeight * 0.1)));
-      if (track) track.style.setProperty('--p', p.toFixed(3));
-      const n = r.top < window.innerHeight * 0.72 ? Math.min(items.length, Math.floor(p * (items.length - 1) + 1.0001)) : 0;
-      items.forEach((li, i) => li.classList.toggle('on', i < n));
-    };
-    const ask = () => { if (!raf) raf = requestAnimationFrame(update); };
-    window.addEventListener('scroll', ask, { passive: true });
-    window.addEventListener('resize', ask);
-    update();
+  /* 4. Animaciones en bucle solo mientras se ven: el viento de la bandera grande (SMIL)
+     y los pulsos del mapa. Fuera de pantalla no gastan nada. */
+  function initPausa() {
+    const io = 'IntersectionObserver' in window;
+    const sprite = $('#sprite');
+    const flag = $('.country__flag');
+    if (sprite && sprite.pauseAnimations) {
+      if (!flag) sprite.pauseAnimations();
+      else if (io) new IntersectionObserver((en) => (en[0].isIntersecting ? sprite.unpauseAnimations() : sprite.pauseAnimations())).observe(flag);
+    }
+    $$('.mapa').forEach((el) => {
+      if (!io) { el.classList.add('is-vis'); return; }
+      new IntersectionObserver((en) => el.classList.toggle('is-vis', en[0].isIntersecting)).observe(el);
+    });
   }
 
   /* 5. Formulario por pasos: primero sus datos, después su proyecto */
@@ -479,10 +474,14 @@
       new IntersectionObserver((en) => { visibleContact = en[0].isIntersecting; tick(); }, { threshold: 0.05 }).observe(contacto);
     }
     const hero = $('.hero');
-    const limit = () => (hero ? hero.offsetHeight * 0.75 : 320);
-    const tick = () => wa.classList.toggle('is-on', window.scrollY > limit() && !visibleContact);
+    let limit = 320, raf = 0;
+    const measure = () => { limit = hero ? hero.offsetHeight * 0.75 : 320; };
+    const update = () => { raf = 0; wa.classList.toggle('is-on', window.scrollY > limit && !visibleContact); };
+    const tick = () => { if (!raf) raf = requestAnimationFrame(update); };
     window.addEventListener('scroll', tick, { passive: true });
-    tick();
+    window.addEventListener('resize', () => { measure(); tick(); });
+    measure();
+    update();
   }
 
   /* 7. Galería a pantalla completa: flechas, teclado y deslizar */
@@ -502,11 +501,21 @@
     const img = $('img', dlg), cap = $('.lb__cap', dlg), num = $('.lb__n', dlg);
     let cur = 0;
     const labels = () => { $('.lb__close', dlg).setAttribute('aria-label', T(L.close)); $('.lb__prev', dlg).setAttribute('aria-label', T(L.prev)); $('.lb__next', dlg).setAttribute('aria-label', T(L.next)); };
+    const big = (k) => { const t = $('img', items[(k + items.length) % items.length]); return (t.currentSrc || t.src).replace(/-(500|800)\.webp$/, '-1400.webp'); };
+    const pedidas = new Set();
+    const pide = (url) => { if (pedidas.has(url)) return; pedidas.add(url); const im = new Image(); im.decoding = 'async'; im.src = url; };
     const show = (i) => {
       cur = (i + items.length) % items.length;
       const src = $('img', items[cur]);
+      const yo = cur, grande = big(cur);
       img.classList.remove('is-in'); void img.offsetWidth;
-      img.src = src.currentSrc.replace(/-800\.webp$/, '-1400.webp') || src.src;
+      img.src = src.currentSrc || src.src;
+      if (grande !== img.src) {
+        const pre = new Image();
+        pre.src = grande;
+        (pre.decode ? pre.decode() : Promise.resolve()).then(() => { if (cur === yo && dlg.open) img.src = grande; }).catch(() => {});
+      }
+      setTimeout(() => { pide(big(cur + 1)); pide(big(cur - 1)); }, 250);
       img.alt = src.alt;
       cap.textContent = ($('.gal__cap', items[cur]) || {}).textContent || '';
       num.textContent = (cur + 1) + ' / ' + items.length;
@@ -563,7 +572,7 @@
     safe(initHeroWords, 'heroWords');
     safe(initHero, 'hero');
     safe(initMapa, 'mapa');
-    safe(initSteps, 'steps');
+    safe(initPausa, 'pausa');
     safe(initWizard, 'wizard');
     safe(initWa, 'wa');
     safe(initLightbox, 'lightbox');
