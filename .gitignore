@@ -1,3 +1,4 @@
 assets/_src/
 assets/test/
 tools/serve.mjs
+dist/
