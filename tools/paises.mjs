@@ -7,7 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const BASE_URL = 'https://mariovalentinopavel.github.io/benamar/';
+const BASE_URL = 'https://benamar.es/';
 const src = fs.readFileSync(path.join(RAIZ, 'index.html'), 'utf8').replace(/\r\n/g, '\n');
 
 const head = src.slice(0, src.indexOf('<main id="main">'));

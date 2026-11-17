@@ -2065,7 +2065,7 @@ html.lb-open { overflow: hidden; }
 /* La foto, a sangre dentro de un filete de tinta; recorte cerca de los dos (la original tiene mucho paisaje) */
 .team__foto { position: relative; margin: 0; border-radius: 4px; overflow: hidden; background: #2A2520; box-shadow: 0 0 0 1px var(--ink); }
 .team__recorte { display: block; overflow: hidden; aspect-ratio: 4 / 5; }
-.team__foto img { display: block; width: 100%; height: 100%; object-fit: cover; scale: 1.35; transform-origin: 42% 88%; filter: saturate(1.08) contrast(1.03); transition: scale .8s var(--ease-out); background: var(--lq, none) center / cover no-repeat; }
+.team__foto img { display: block; width: 100%; height: 100%; object-fit: cover; scale: 1.22; transform-origin: 54% 88%; filter: saturate(1.08) contrast(1.03); transition: scale .8s var(--ease-out); background: var(--lq, none) center / cover no-repeat; }
 /* Ficha técnica: cuatro columnas separadas por filos; en etiquetas estrechas, dos por dos */
 .etiqueta__datos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 16px 0 0; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .etiqueta__datos > div { min-width: 0; padding: 10px 6px 11px 10px; border-left: 1px solid var(--line-2); }
@@ -2096,7 +2096,7 @@ html.lb-open { overflow: hidden; }
 .js .team__card[data-reveal].is-in .etiqueta__barras { clip-path: inset(0); }
 @media (hover: hover) and (pointer: fine) {
   .team__card:hover .etiqueta { translate: 0 -6px; box-shadow: 0 2px 2px rgba(40, 14, 6, .14), 0 18px 28px -14px rgba(40, 14, 6, .36), 0 54px 70px -38px rgba(40, 14, 6, .55); }
-  .team__card:hover .team__foto img { scale: 1.4; }
+  .team__card:hover .team__foto img { scale: 1.26; }
   .team__card:hover .etiqueta__codigo::after { animation: etiqueta-escaner 1.3s var(--ease-io) .1s 1; }
 }
 /* Texto: título con «Mario & Sami», la primera frase como entrada y el enlace */
@@ -2200,3 +2200,50 @@ html.lb-open { overflow: hidden; }
 @supports (animation-timeline: scroll()) { .hero__bg img { will-change: translate; } }
 /* Con la portada fuera de la pantalla, la marca en relieve no se dibuja (conserva su hueco) */
 .marca3d.is-fuera { content-visibility: hidden; }
+
+/* Testimonios en carril también en escritorio (17-11-2026): tres a la vista, flechas y puntos */
+.rail-nav { display: none; }
+@media (min-width: 760px) {
+  .testi__grid {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: calc((100% - 36px) / 3);
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; padding-block: 4px 8px;
+  }
+  .testi__grid::-webkit-scrollbar { display: none; }
+  .testi__grid > * { scroll-snap-align: start; min-width: 0; }
+  html.js .testi__grid > [data-reveal] { opacity: 1; translate: none; }
+  .rail-nav { display: flex; justify-content: center; gap: 12px; margin-top: 28px; }
+  .rail-nav__b { width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(243, 230, 214, .35); background: transparent; color: var(--paper); font: 500 1.2rem/1 "Inter", sans-serif; cursor: pointer; transition: background .25s, color .25s, opacity .25s, border-color .25s; }
+  .rail-nav__b:disabled { opacity: .3; cursor: default; }
+  .rail-dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; color: var(--paper); }
+  .rail-dots i { width: 6px; height: 6px; border-radius: 3px; background: currentColor; opacity: .3; transition: width .3s var(--ease-out), opacity .3s var(--ease-out); }
+  .rail-dots i.is-on { width: 18px; opacity: .9; }
+}
+@media (min-width: 760px) and (max-width: 1099px) { .testi__grid { grid-auto-columns: calc((100% - 18px) / 2); max-width: none; } }
+@media (hover: hover) and (pointer: fine) { .rail-nav__b:not(:disabled):hover { background: var(--paper); color: var(--ink); border-color: var(--paper); } }
+
+/* Cifras como las fichas de «Cómo trabajamos» (17-11-2026): ficha oscura translúcida de 14 px, índice [001]
+   en dorado monoespaciado y texto crema. Sustituye a los carteles de papel con cinta. */
+html .stats .stat, html .stats .stat:nth-child(n), html .stats .stat.is-in {
+  background: rgba(28, 6, 4, .26); border-radius: 14px; outline: 0; rotate: 0deg; color: var(--paper);
+  box-shadow: inset 0 0 0 1px rgba(243, 230, 214, .08);
+}
+html .stats .stat::before { content: none; }
+html .stats .stat::after, html .stats .stat:hover::after, html .stats .stat.is-in::after {
+  content: "[" counter(cartel, decimal-leading-zero) "]"; content: "[0" counter(cartel, decimal-leading-zero) "]";
+  inset: 22px auto auto 24px; padding: 0; border: 0; font: 500 .72rem/1 var(--mono); letter-spacing: .04em; color: var(--gold);
+}
+.stats .stat__n strong, .stats .stat__u { text-shadow: none; }
+.stats .stat__n { color: var(--paper); }
+.stats .stat__u { color: var(--paper); opacity: .7; }
+.stats .stat__l { color: rgba(245, 239, 230, .78); }
+.stats .stat__viz--chips i { background: transparent; color: var(--paper); box-shadow: inset 0 0 0 1.5px rgba(245, 239, 230, .45); }
+.stats .ring__bg { stroke: rgba(245, 239, 230, .14); }
+.stats .ring__fg { stroke: var(--gold); }
+.stats .ring__marcas line { stroke: rgba(245, 239, 230, .4); }
+.stats .ring__marcas .ring__m { stroke: rgba(245, 239, 230, .8); }
+.stats .ring__aguja line { stroke: var(--paper); }
+.stats .ring__aguja circle { fill: var(--gold); stroke: var(--paper); }
+.stats .stat__viz--days i { background: rgba(245, 239, 230, .12); color: var(--paper); box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  html .stats .stat:hover, html .stats .stat.is-in:hover { rotate: 0deg; translate: 0 -4px; box-shadow: inset 0 0 0 1px rgba(243, 230, 214, .14), 0 26px 44px -28px rgba(15, 8, 4, .75); }
+}

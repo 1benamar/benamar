@@ -325,7 +325,7 @@
     };
     const showFallback = () => {
       const text = compose();
-      $('[data-fb-wa]', fallback).href = 'https://wa.me/34613441239?text=' + encodeURIComponent(text);
+      $('[data-fb-wa]', fallback).href = 'https://wa.me/34633712475?text=' + encodeURIComponent(text);
       $('[data-fb-mail]', fallback).href = 'mailto:contact@benamar.es?subject=' + encodeURIComponent(T(MSG.subject)) + '&body=' + encodeURIComponent(text);
       fallback.hidden = false;
       status.textContent = '';
@@ -577,13 +577,29 @@
       dots.innerHTML = items.map(() => '<i></i>').join('');
       rail.after(dots);
       const ds = [...dots.children];
+      // Flechas para pasar de tarjeta a tarjeta (en escritorio; en el móvil se desliza con el dedo)
+      const T = { es: ['Anterior', 'Siguiente'], ca: ['Anterior', 'Següent'], en: ['Previous', 'Next'], fr: ['Précédent', 'Suivant'], ro: ['Anterior', 'Următorul'] };
+      const nav = document.createElement('div');
+      nav.className = 'rail-nav';
+      nav.innerHTML = '<button type="button" class="rail-nav__b" data-dir="-1"><span aria-hidden="true">←</span></button><button type="button" class="rail-nav__b" data-dir="1"><span aria-hidden="true">→</span></button>';
+      dots.before(nav);
+      const bs = [...nav.children];
+      const etiquetas = () => { const t = T[document.documentElement.lang.slice(0, 2)] || T.es; bs.forEach((b, i) => b.setAttribute('aria-label', t[i])); };
+      etiquetas(); document.addEventListener('langchange', etiquetas);
+      bs.forEach((b) => b.addEventListener('click', () => {
+        const paso = items[0].getBoundingClientRect().width + parseFloat(getComputedStyle(rail).columnGap || 0);
+        rail.scrollBy({ left: +b.dataset.dir * paso, behavior: 'smooth' });
+      }));
       let raf = 0;
       const update = () => {
         raf = 0;
         const max = rail.scrollWidth - rail.clientWidth;
         const k = max > 0 ? Math.round((rail.scrollLeft / max) * (items.length - 1)) : 0;
         ds.forEach((d, i) => d.classList.toggle('is-on', i === k));
+        bs[0].disabled = rail.scrollLeft < 4;
+        bs[1].disabled = rail.scrollLeft > max - 4;
       };
+      window.addEventListener('resize', update);
       rail.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
       update();
     });
