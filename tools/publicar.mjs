@@ -203,7 +203,7 @@ for (const lang of ['es', 'en', 'fr']) {
   for (const a of ART[lang]) {
     const url = SITE + a.url;
     const ld = { '@context': 'https://schema.org', '@type': 'Article', headline: a.h1, description: a.desc, image: SITE + a.img, datePublished: a.date[0], inLanguage: lang, mainEntityOfPage: url, author: { '@type': 'Organization', name: 'BENAMAR', url: SITE + '/' }, publisher: { '@id': SITE + '/#organization' } };
-    const { head, foot } = shell(lang, a.title + ' · BENAMAR', a.desc, url, a.alt, ld);
+    const { head, foot } = shell(lang, (a.title + ' · BENAMAR').length > 60 ? a.title : a.title + ' · BENAMAR', a.desc, url, a.alt, ld);
     const srvName = (D[lang] || {})[`ts_${{ 'diseno-web-barcelona.html': 'web', 'landing-pages-barcelona.html': 'landing', 'gestion-redes-sociales-barcelona.html': 'redes', 'posicionamiento-seo-barcelona.html': 'seo' }[a.srv]}`];
     const srvTitulo = (srvName || read(a.srv).match(/<title>([^<]*)/)[1]).replace(/ · BENAMAR$/, '').replace(/ en Barcelona$| in Barcelona$| à Barcelone$/, '');
     const otros = ART[lang].filter((o) => o !== a).map((o) => card(o, u)).join('\n');
@@ -278,10 +278,11 @@ ${ART[lang].map((a) => card(a, u)).join('\n')}
 
 // ── Sitemap con hreflang ──
 const hoy = new Date().toISOString().slice(0, 10);
-const urls = [];
+const urls = [], vistas = new Set();
 for (const alts of [...SITEMAP, ...ARTSITE]) {
   for (const [l, u] of Object.entries(alts)) {
-    if (l === 'x-default') continue;
+    if (l === 'x-default' || vistas.has(u)) continue;
+    vistas.add(u);
     urls.push(`  <url>\n    <loc>${u}</loc>\n    <lastmod>${hoy}</lastmod>\n${Object.entries(alts).map(([x, v]) => `    <xhtml:link rel="alternate" hreflang="${x}" href="${v}"/>`).join('\n')}\n  </url>`);
   }
 }
