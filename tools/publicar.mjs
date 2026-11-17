@@ -202,6 +202,9 @@ for (const lang of ['es', 'en', 'fr']) {
   const u = AUI[lang];
   for (const a of ART[lang]) {
     const url = SITE + a.url;
+    // Títulos orientados a cómo pregunta la gente en Google (Search Console, 17-11-2026)
+    const TIT = { 'cuanto-tarda-el-seo-en-dar-resultados.html': 'Cuánto tarda en posicionarse una web en Google' };
+    if (TIT[a.file]) a.title = TIT[a.file];
     const ld = { '@context': 'https://schema.org', '@type': 'Article', headline: a.h1, description: a.desc, image: SITE + a.img, datePublished: a.date[0], inLanguage: lang, mainEntityOfPage: url, author: { '@type': 'Organization', name: 'BENAMAR', url: SITE + '/' }, publisher: { '@id': SITE + '/#organization' } };
     const { head, foot } = shell(lang, (a.title + ' · BENAMAR').length > 60 ? a.title : a.title + ' · BENAMAR', a.desc, url, a.alt, ld);
     const srvName = (D[lang] || {})[`ts_${{ 'diseno-web-barcelona.html': 'web', 'landing-pages-barcelona.html': 'landing', 'gestion-redes-sociales-barcelona.html': 'redes', 'posicionamiento-seo-barcelona.html': 'seo' }[a.srv]}`];

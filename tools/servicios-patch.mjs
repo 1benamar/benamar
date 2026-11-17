@@ -34,6 +34,21 @@ export function textos() {
   for (const l of ['en', 'fr']) j.landing[l].faq.items[4][1] = j.landing[l].faq.items[4][1].replace(/\.\s[^.]*(advertising|publicité)[\s\S]*$/, '. ' + fixCamp[l]);
   const extra = path.join(DIR, 'servicios-texto-ca-ro.json');
   if (fs.existsSync(extra)) { const e = JSON.parse(fs.readFileSync(extra, 'utf8')); for (const k of Object.keys(e)) Object.assign(j[k], e[k]); }
+  // SEO (17-11-2026): Search Console muestra que la página sale por «posicionamiento (en) Google Barcelona»,
+  // «en buscadores» y «natural»; el título y la entrada usan esas palabras (es lo mismo que ya hacen)
+  Object.assign(j.seo.es, {
+    title: 'Posicionamiento en Google en Barcelona — BENAMAR',
+    desc: 'Posicionamiento en Google en Barcelona: SEO técnico, contenido y posicionamiento local para aparecer en los buscadores sin pagar por clic. Informe cada mes.',
+    h1: 'Posicionamiento en Google en Barcelona',
+    lead: 'El posicionamiento en buscadores, también llamado posicionamiento natural o SEO, es el trabajo de aparecer en Google sin pagar por cada clic. Es la visita más valiosa que existe y también la más lenta de conseguir: se trabaja en tres frentes a la vez y se mide cada mes.',
+  });
+  Object.assign(j.seo.ca, {
+    title: 'Posicionament a Google a Barcelona — BENAMAR',
+    desc: 'Posicionament a Google a Barcelona: SEO tècnic, contingut i posicionament local per aparèixer als cercadors sense pagar per clic. Informe cada mes.',
+    h1: 'Posicionament a Google a Barcelona',
+  });
+  j.landing.es.title = 'Diseño de landing pages en Barcelona — BENAMAR';
+  j.landing.ca.title = 'Disseny de landing pages a Barcelona — BENAMAR';
   return j;
 }
 
